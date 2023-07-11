@@ -1,0 +1,26 @@
+[
+  {
+    "last_name": "rajput",
+    "email": "shivam@gmail.com",
+    "gender": "M",
+    "password": "shivsingh",
+    "id": "6c91b7e1-77a5-44b7-b6dd-945c509339c8",
+    "first_name": "shivam"
+  },
+  {
+    "first_name": "Ayush",
+    "last_name": "Singh",
+    "email": "ayush@gmail.com",
+    "gender": "M",
+    "password": "ayushsingh",
+    "id": "54c73d15-0081-440f-9b1a-ef0ce6a9aa35"
+  },
+  {
+    "first_name": "Apurva",
+    "last_name": "Garg",
+    "email": "appu@gmail.com",
+    "gender": "F",
+    "password": "appugarg",
+    "id": "e55db253-2ea2-480e-b40a-e4ef30745f6f"
+  }
+]
