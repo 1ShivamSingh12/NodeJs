@@ -1,0 +1,14 @@
+Q1 . what is database?
+
+A1 . Databases provides a structured and organized way to store data, making it easier to access, query, and update.
+
+Q2 . Types of Databases
+
+A2 . 1.Relational database (SQL) - In Relational Database, Data is stored in a table (also called as relation) having rows & columns.
+
+     2.Non Relational  (Mongo db) - In Non Relational data is not stored in the form of tables or rows or columns but in a key value pair 
+
+Q3 . Different type of queries
+
+A3 . 1.CREATE - USED TO CREATE A TABLE , SYNTAX - CREATE TABLE USERS(id PRIMARY KEY , name VARCHAR , age VARCHAR)
+     2.INSERT - INSERT VALUE IN TABLE , SYNATX - INSERT INTO USERS( id , name, age) VALUES (1 , 'SHIVAM' , 24) , (2, 'Ayush' , 24)
