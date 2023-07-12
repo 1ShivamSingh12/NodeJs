@@ -1,0 +1,27 @@
+"1. User should be able to follow other user. 
+2. User should be able to unfollow other user.
+3. User should be able to see total followers and following count. 
+4. User should be able to see followers list.
+5. User should be able to see following list.
+6. User should be able to remove follower or following. [single follower at once]
+7. User should be able to see profile of another user.
+8. User profile should consist basic details 
+    a. name
+    b. image
+    c. age
+    d. username
+    e. emailId"
+
+1 . INSERT INTO followerManagemnet (followers_id, followings_id) VALUES (user_id, user_to_follow_id);
+
+2 . DELETE FROM followerManagemnet WHERE follower_id = user_id AND following_id = user_to_unfollow_id;
+
+4 . SELECT COUNT(*) AS Total_followers FROM followerManagemnet WHERE following_id = user_id;
+
+5 . SELECT COUNT(*) AS Total_following FROM followerManagemnet WHERE follower_id = user_id;
+
+7 . SELECT name, image, age, username FROM Users WHERE user_id = <user_id>;
+
+uml diagram 
+
+Click me -> https://drive.google.com/file/d/1Eyplzr21yaSpjWd30OpChl_KngjEYkWC/view?usp=sharing
