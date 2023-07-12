@@ -16,7 +16,7 @@ select count(*) as commment_count from comments WHERE photo_id = 10 group by pho
 
 Find the user with the most activity (most comments + most photos)
 
-select  comments.user_id, COUNT(comments.photo_id + comments.id) AS activity_data from comments group by comments.user_id order by activity desc LIMIT 1;
+select  comments.user_id, COUNT(comments.photo_id + comments.id) AS activity_data from comments group by comments.user_id order by activity_data desc LIMIT 1;
 
 Calculate the average number of characters per comment
 
