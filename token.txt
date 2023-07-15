@@ -1,0 +1,25 @@
+ayush - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5dXNoc2luZ2hAYXBwaW52ZW50aXYuY29tIiwiaWF0IjoxNjg5MjU0MDYzfQ.F-nGUP9GMIBZbWxrG0WNI7RVSNFFMiHeEFpHQen9JsY
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF5dXNoc2luZ2hAYXBwaW52ZW50aXYuY29tIiwiaWF0IjoxNjg5MjU1ODE4fQ.0M2Ynf6NEmKxD4rBMK3qFi54I3WBwdcAAoEyddig578
+
+
+
+
+
+
+
+login mai bs token 
+profile fetch to password bi ayga
+
+
+Embedded Document
+
+1. Inseertion
+2. push , pull , pushAll , $element match
+3. update Many  using Filters
+4. Increment decrement
+5. $exist 
+6. user onboarding
+7. Session managemnet
+8. action - commnet , like
+9. post
