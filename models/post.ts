@@ -4,7 +4,6 @@ const tags = new mongoose.Schema({
     name:{
         type:String
     },
-
     user_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 

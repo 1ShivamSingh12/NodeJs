@@ -7,7 +7,7 @@ const likes = new mongoose.Schema({
     },
 
     like_count:{
-        type:String
+        type:Number
     },
 
 });
