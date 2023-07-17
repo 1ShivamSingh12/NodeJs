@@ -24,6 +24,6 @@ const followData = new mongoose.Schema({
 });
 
 
-const follow = mongoose.model('instagramUsers' , followData)
+const follow = mongoose.model('FollowerManagemnet' , followData)
 
 export default follow

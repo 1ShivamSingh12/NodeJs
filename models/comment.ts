@@ -41,6 +41,6 @@ const comment = new mongoose.Schema({
 });
 
 
-const commentData = mongoose.model('instagramUsers' , comment)
+const commentData = mongoose.model('Comments' , comment)
 
 export default commentData

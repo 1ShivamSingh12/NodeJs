@@ -13,6 +13,6 @@ const likes = new mongoose.Schema({
 });
 
 
-const likesdata = mongoose.model('instagramUsers' , likes)
+const likesdata = mongoose.model('PostsLikes' , likes)
 
 export default likesdata

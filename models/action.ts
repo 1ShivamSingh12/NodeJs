@@ -14,6 +14,6 @@ const action = new mongoose.Schema({
     type:Object.values(ActionPost)
 });
 
-const actions = mongoose.model('instagramUsers' , action)
+const actions = mongoose.model('actions' , action)
 
 export default actions

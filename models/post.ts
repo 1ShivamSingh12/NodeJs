@@ -31,7 +31,7 @@ const post = new mongoose.Schema({
     },
 })
 
-const postData = mongoose.model('instagramUsers' , post)
+const postData = mongoose.model('Posts' , post)
 
 export default postData
 
