@@ -1,0 +1,32 @@
+db.user.find()
+// db.user.deleteOne({"_id" : ObjectId("64b25900b1689aeaf13a1f32"),})
+// db.user.insertMany([{name:"Mayank",address:[{city:"Noida",state:"Uttar Pradesh"}]},{name:"Swapnil",address:[{city:"Lucknow",state:"Uttar Pradesh"}]},{name:"Ayush",address:[{city:"Haldwani",state:"Uttrakhand"}]}])
+
+//Insertion
+// db.user.insertOne({name:"Swapnil",address:{
+//     city:"Noida",
+//     state:"Uttar Pradesh",
+//     country:"India"
+    
+// }})
+
+// Push And Pull
+// db.user.updateOne({"_id" : ObjectId("64b0e76a10f00333d18bfb43")},{$push: {address:{$each: [{city1:"noida",state:"UP"},{city2:"Dehradun",state:"UK"}]}}});
+
+
+// db.user.updateOne(
+//     {"_id" : ObjectId("64b0e76a10f00333d18bfb43")},
+//     {$pull: {address: {state:"UK"}}})
+
+
+// elem Match
+
+// db.user.find({address:{$elemMatch: {state:"Uttrakhand"}}})
+
+// Update Many with filter
+
+// db.user.updateMany({name:"Shivam"},{$set: {name:"Shiv"}})
+
+// exist
+ 
+//  db.user.find({first_name: {$exists: true}})
