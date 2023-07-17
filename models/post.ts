@@ -6,7 +6,8 @@ const tags = new mongoose.Schema({
     },
 
     user_id:{
-
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User' 
     }
 });
 
@@ -17,7 +18,6 @@ const post = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
     },
-
     image:{
         type:String
     },
