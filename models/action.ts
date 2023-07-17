@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
+enum ActionPost {
+    LIKE = 'LIKE',
+    cOMMENT = 'comment',
+    
+  }
+
 const action = new mongoose.Schema({
-    likes:{
+    user_id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'likes'
-
+        ref:'User'
     },
-
-    comments:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'comment'
-    }
+    type:Object.values(ActionPost)
 });
 
 const actions = mongoose.model('instagramUsers' , action)

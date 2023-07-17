@@ -5,9 +5,9 @@ const likes = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'post' 
     },
-
-    like_count:{
-        type:Number
+    user_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User' 
     },
 
 });

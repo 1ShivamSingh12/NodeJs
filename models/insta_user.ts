@@ -2,25 +2,35 @@ import mongoose from "mongoose";
 
 const user = new mongoose.Schema({
     name:{
-        type:String
+        type:String,
+        required:true
     },
     username:{
-        type:String
+        type:String,
+        required:true
     },
     email:{
-        type:String
+        type:String,
+        required:true
     },
     password:{
+        type:String,
+        required:true
+    },
+    bio:{
         type:String
     },
-    Bio:{
+    followerCount:{
+        type:Number
+    },
+    followingCount:{
+        type:Number
+    },
+    profilePic:{
         type:String
     },
-    followerList:{
-        type:Number
-    },
-    followingList:{
-        type:Number
+    postCount:{
+        type:String
     }
 })
 

@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 
 const tags = new mongoose.Schema({
-    name:{
-        type:String
-    },
+
     user_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
@@ -25,11 +23,11 @@ const post = new mongoose.Schema({
     description:{
         type:String
     },
-    likes:{
-        type:String
+    likesCount:{
+        type:Number
     },
-    comments:{
-        type:String
+    commentCount:{
+        type:Number
     },
 })
 
