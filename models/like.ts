@@ -13,6 +13,5 @@ const likes = new mongoose.Schema({
 });
 
 
-const likesdata = mongoose.model('PostsLikes' , likes)
+export const likesdata = mongoose.model('PostsLikes' , likes)
 
-export default likesdata

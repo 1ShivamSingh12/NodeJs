@@ -30,3 +30,94 @@ db.user.find()
 // exist
  
 //  db.user.find({first_name: {$exists: true}})
+
+
+
+
+1. insert the values in users 
+
+/* 1 createdAt:18/07/2023, 16:56:13*/
+{
+	"_id" : ObjectId("64b676d5e4cc8049dd71ff22"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff1d"),
+	"image" : "image1.jpg",
+	"description" : "No Caption Needed",
+	"likesCount" : 0,
+	"commentCount" : 0,
+	"tags" : {
+		"user_id" : "64b62b78e4cc8049dd71ff1e"
+	}
+},
+
+/* 2 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff23"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff1d"),
+	"image" : "image2.jpg",
+	"description" : "Sunny Day",
+	"likesCount" : 0,
+	"commentCount" : 0
+},
+
+/* 3 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff24"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff1e"),
+	"image" : "image3.jpg",
+	"description" : "No Day",
+	"likesCount" : 0,
+	"commentCount" : 0
+},
+
+/* 4 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff25"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff1f"),
+	"image" : "dog.jpg",
+	"description" : "Dog",
+	"likesCount" : 0,
+	"commentCount" : 0
+},
+
+/* 5 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff26"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff1f"),
+	"image" : "person.jpg",
+	"description" : "Person",
+	"likesCount" : 0,
+	"commentCount" : 0
+},
+
+/* 6 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff27"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff20"),
+	"image" : "person1.jpg",
+	"description" : "Person1",
+	"likesCount" : 0,
+	"commentCount" : 0
+},
+
+/* 7 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff28"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff20"),
+	"image" : "person2.jpg",
+	"description" : "Person2",
+	"likesCount" : 0,
+	"commentCount" : 0,
+	"tags" : {
+		"user_id" : "64b62b78e4cc8049dd71ff1f"
+	}
+},
+
+/* 8 createdAt:18/07/2023, 17:13:14*/
+{
+	"_id" : ObjectId("64b67ad2e4cc8049dd71ff29"),
+	"user_id" : ObjectId("64b62b78e4cc8049dd71ff21"),
+	"image" : "person3.jpg",
+	"description" : "Person3",
+	"likesCount" : 0,
+	"commentCount" : 0
+}

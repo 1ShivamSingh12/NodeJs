@@ -1,6 +1,7 @@
 
 import mongoose from 'mongoose';
-
+import * as models from './models/syncCollection';
+ 
 const DATABASE_URL = "mongodb+srv://shivamsingh5:shivam123@cluster0.oxeqemq.mongodb.net/instagram";
 
 
@@ -8,6 +9,7 @@ const connectDB = async () => {
   try {
 
     await mongoose.connect(DATABASE_URL)
+    models.userData;
     console.log('Connected Successfully...')
     
   } catch (error) {

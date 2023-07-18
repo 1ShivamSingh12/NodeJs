@@ -21,7 +21,8 @@ const user = new mongoose.Schema({
         type:String
     },
     followerCount:{
-        type:Number
+        type:Number,
+        default: 0
     },
     followingCount:{
         type:Number
@@ -34,7 +35,7 @@ const user = new mongoose.Schema({
     }
 })
 
-const userData = mongoose.model('instagramUsers' , user)
+export const userData = mongoose.model('instagramUsers' , user)
 
-export default userData
+// export default userData
 

@@ -5,7 +5,6 @@ enum FollowAction {
     REJECTED = 'reject',
     PENDING  ='pending',
     BLOCKED = 'block'
-
   }
 
 const followData = new mongoose.Schema({
@@ -17,13 +16,11 @@ const followData = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
     },
-
     status:{
     type:Object.values(FollowAction)
     },
 });
 
 
-const follow = mongoose.model('FollowerManagemnet' , followData)
+export const follow = mongoose.model('FollowerManagemnet' , followData)
 
-export default follow

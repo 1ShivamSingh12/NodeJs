@@ -6,6 +6,7 @@ const tags = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
     }
+    
 });
 
 
@@ -31,7 +32,6 @@ const post = new mongoose.Schema({
     },
 })
 
-const postData = mongoose.model('Posts' , post)
+export const postData = mongoose.model('Posts' , post)
 
-export default postData
 

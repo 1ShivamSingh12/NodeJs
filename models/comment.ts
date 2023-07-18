@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 
-
 const comment_reply = new mongoose.Schema({
     user_id:{
         type: mongoose.Schema.Types.ObjectId,
@@ -37,10 +36,8 @@ const comment = new mongoose.Schema({
 
     comment_reply:comment_reply,
     
-
 });
 
 
-const commentData = mongoose.model('Comments' , comment)
+export const commentData = mongoose.model('Comments' , comment)
 
-export default commentData

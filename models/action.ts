@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 enum ActionPost {
-    LIKE = 'LIKE',
-    cOMMENT = 'comment',
-    
+    LIKE = 'like',
+    comment_replyOMMENT = 'comment',
   }
 
 const action = new mongoose.Schema({
@@ -14,6 +13,5 @@ const action = new mongoose.Schema({
     type:Object.values(ActionPost)
 });
 
-const actions = mongoose.model('actions' , action)
+export const actions = mongoose.model('actions' , action)
 
-export default actions

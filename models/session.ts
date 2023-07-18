@@ -17,7 +17,4 @@ const Session = new mongoose.Schema({
     },
 })
 
-const SessionData = mongoose.model('Sessions' , Session)
-
-export default SessionData
-
+export const SessionData = mongoose.model('Sessions' , Session)
