@@ -19,14 +19,18 @@ const post = new mongoose.Schema({
     image:{
         type:String
     },
+
     tags:tags,
 
     description:{
         type:String
     },
+    
+
     likesCount:{
         type:Number
     },
+    
     commentCount:{
         type:Number
     },

@@ -1,13 +1,16 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 
 const user = new mongoose.Schema({
     name:{
         type:String,
-        required:true
+        required:true,
+
     },
     username:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     email:{
         type:String,
@@ -22,7 +25,6 @@ const user = new mongoose.Schema({
     },
     followerCount:{
         type:Number,
-        default: 0
     },
     followingCount:{
         type:Number
@@ -31,11 +33,10 @@ const user = new mongoose.Schema({
         type:String
     },
     postCount:{
-        type:String
+        type:Number
     }
 })
 
 export const userData = mongoose.model('instagramUsers' , user)
 
-// export default userData
 
