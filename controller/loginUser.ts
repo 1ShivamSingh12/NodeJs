@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { userData } from "../models/insta_user";
 import { loginSchema } from "../validation/userValidate";
-import { generateToken } from "../middleware/token";
+import { generateToken } from "../service/generateToken";
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
