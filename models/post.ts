@@ -26,7 +26,6 @@ const post = new mongoose.Schema({
         type:String
     },
     
-
     likesCount:{
         type:Number
     },

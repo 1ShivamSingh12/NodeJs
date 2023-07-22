@@ -6,6 +6,7 @@ import { number } from "joi";
 
 export const insertPost = async (req: Request, res: Response) => {
   try {
+    
     let userId = new mongoose.Types.ObjectId(req.body.user_id.id);
 
     // let result = await postData.insertMany([
@@ -17,12 +18,12 @@ export const insertPost = async (req: Request, res: Response) => {
     //     commentCount: 0,
     //   },
     // ]);
-    let result = await userData.updateOne(
-        { _id: userId },
-        { $inc: { postCount: 1 } }
-      );
+    // let result = await userData.updateOne(
+    //     { _id: userId },
+    //     { $inc: { postCount: 1 } }
+    //   );
     
-    res.send(result)
+    // res.send(result)
     // if (result) {
     //   res.status(201).send("Inserted Successfully");
     // }

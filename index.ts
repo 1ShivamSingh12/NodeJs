@@ -1,39 +1,24 @@
-import express from 'express'
-import connectDB from './db';
-import { getUsers } from './controller/getUserController';
+import express, { Application } from "express";
+import connectDB from "./db";
 import * as dotenv from "dotenv";
-import { loginUser } from './controller/loginUser';
-import { followRequest } from './controller/followerCount';
-import { verifyToken } from './middleware/token';
-import { insertPost } from './controller/createPostController';
-import { likePost } from './controller/postLikeController';
-import { registerUser } from './controller/signUpController';
+import { swaggerDoc } from "./utils/swagger";
+import { routes } from "./routes/routes";
+import cors from "cors";
 
 dotenv.config();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
-const app = express()
+const app: Application = express();
 
-app.use(express.json())
+app.use(express.json());
 
-app.post('/login',loginUser)
+routes(app);
 
-app.post('/signUp',registerUser)
+app.use(cors());
 
-app.get('/getUsers',getUsers)
-
-app.post('/follow',verifyToken ,followRequest)
-
-app.post('/addPost',verifyToken ,insertPost)
-
-app.post('/likePost',verifyToken ,likePost)
-
-
-app.listen(port , async()=>{
-
-    console.log(`Listening at port ${port}`);
-
-    await connectDB()
-
-})
+app.listen(port, async () => {
+  console.log(`Listening at port ${port}`);
+  await connectDB();
+  swaggerDoc(app);
+});
