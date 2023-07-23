@@ -7,7 +7,8 @@ const secretKey = "qwetygjkvuyfy";
 
 export const generateToken = async (req: Request, res: Response) => {
     // await client.connect();
-  
+    console.log(req.body.id , 'token');
+    
     const token = jwt.sign(req.body.id, secretKey);
   
     let session_payload: object = {

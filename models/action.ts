@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 enum ActionPost {
     LIKE = 'like',
-    comment_replyOMMENT = 'comment',
+    COMMENT= 'comment',
   }
 
 const action = new mongoose.Schema({

@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { likesdata } from "../models/like";
-import { userData } from "../models/insta_user";
-import { postData } from "../models/post";
+import { likesdata } from "../../models/like";
+import { userData } from "../../models/insta_user";
+import { postData } from "../../models/post";
 
 export const likePost = async (req: Request, res: Response) => {
   try {
-    let userId = new mongoose.Types.ObjectId(req.body.user_id.id);
+    let userId = new mongoose.Types.ObjectId(req.body.user_id);
 
     // let result = await likesdata.insertMany([
     //   {

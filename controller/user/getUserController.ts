@@ -1,4 +1,4 @@
-import { userData } from "../models/insta_user";
+import { userData } from "../../models/insta_user";
 import { Request , Response } from "express";
 
 

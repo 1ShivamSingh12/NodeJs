@@ -1,16 +1,15 @@
 import express, { Application } from "express";
-import { insertPost } from "../controller/createPostController";
-import { followRequest } from "../controller/followerCount";
-import { getUsers } from "../controller/getUserController";
-import { loginUser } from "../controller/loginUser";
-import { likePost } from "../controller/postLikeController";
-import { registerUser } from "../controller/signUpController";
+import { insertPost } from "../controller/posts/createPostController";
+import { followRequest } from "../controller/user/followerCount";
+import { getUsers } from "../controller/user/getUserController";
+import { loginUser } from "../controller/user/loginUser";
+import { likePost } from "../controller/posts/postLikeController";
+import { registerUser } from "../controller/user/signUpController";
 import { verifyToken } from "../middleware/token";
-
+import { comment } from "../controller/posts/commentController";
+import { unfollowRequest } from "../controller/user/unFollowController";
 const app = express();
-
 app.use(express.json());
-
 export const routes = (app: Application) => {
   /**
    * @openapi
@@ -27,133 +26,192 @@ export const routes = (app: Application) => {
   app.get("/getUsers", getUsers);
 
   /**
- * @openapi
- * /login:
- *   post:
- *     tags:
- *     - Login User
- *     description: Login User.
- *     requestBody: 
- *       description: User object that needs to be added to the system.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *     responses:
- *       201:
- *         description: Login successful
- *       400:
- *         description: Bad request. Invalid login credentials.
- */
+   * @openapi
+   * /login:
+   *   post:
+   *     tags:
+   *     - Login User
+   *     description: Login User.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       201:
+   *         description: Login successful
+   *       400:
+   *         description: Bad request. Invalid login credentials.
+   */
 
   app.post("/login", loginUser);
 
-   /**
- * @openapi
- * /signup:
- *   post:
- *     tags:
- *     - Register User
- *     description: Register User.
- *     requestBody: 
- *       description: User object that needs to be added to the system.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *              $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: SignUp successful
- *       400:
- *         description: Bad request. Invalid.
- */
+  /**
+   * @openapi
+   * /signup:
+   *   post:
+   *     tags:
+   *     - Register User
+   *     description: Register User.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/User'
+   *     responses:
+   *       201:
+   *         description: SignUp successful
+   *       400:
+   *         description: Bad request. Invalid.
+   */
 
   app.post("/signUp", registerUser);
 
   /**
- * @openapi
- * /follow:
- *   post:
- *     tags:
- *     - Follow a User
- *     description: Follow a User.
- *     requestBody: 
- *       description: User object that needs to be added to the system.
- *       required: true
- *       content:
- *         application/json:
- *              schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: number
- *     responses:
- *       201:
- *         description: Successful
- *       400:
- *         description: Bad request. Invalid.
- */
+   * @openapi
+   * /follow:
+   *   post:
+   *     tags:
+   *     - Follow a User
+   *     description: Follow a User.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *              schema:
+   *             type: object
+   *             properties:
+   *               id:
+   *                 type: number
+   *     responses:
+   *       201:
+   *         description: Successful
+   *       400:
+   *         description: Bad request. Invalid.
+   */
 
   app.post("/follow", verifyToken, followRequest);
 
   /**
- * @openapi
- * /addPost:
- *   post:
- *     tags:
- *     - Add a post
- *     description: Add a post.
- *     requestBody: 
- *       description: User object that needs to be added to the system.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               image:
- *                 type: string
- *               description:
- *                  type:string
- *     responses:
- *       201:
- *         description: successful
- *       400:
- *         description: Bad request. Invalid.
- */
+   * @openapi
+   * /addPost:
+   *   post:
+   *     tags:
+   *     - Add a post
+   *     description: Add a post.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               image:
+   *                 type: string
+   *               description:
+   *                  type:string
+   *     responses:
+   *       201:
+   *         description: successful
+   *       400:
+   *         description: Bad request. Invalid.
+   */
 
   app.post("/addPost", verifyToken, insertPost);
 
   /**
- * @openapi
- * /likePost:
- *   post:
- *     tags:
- *     - Liked a post
- *     description: Liked a post.
- *     requestBody: 
- *       description: User object that needs to be added to the system.
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: number
- *     responses:
- *       201:
- *         description: SignUp successful
- *       400:
- *         description: Bad request. Invalid.
- */
+   * @openapi
+   * /likePost:
+   *   post:
+   *     tags:
+   *     - Liked a post
+   *     description: Liked a post.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *          schema:
+   *             type: object
+   *             properties:
+   *               id:
+   *                 type: number
+   *     responses:
+   *       201:
+   *         description: successful
+   *       400:
+   *         description: Bad request. Invalid.
+   */
 
   app.post("/likePost", verifyToken, likePost);
+
+
+ /**
+   * @openapi
+   * /comment:
+   *   post:
+   *     tags:
+   *     - Comment on post
+   *     description: Comment on post.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               id:
+   *                 type: number
+   *                description:
+   *                  type:string
+   *     responses:
+   *       201:
+   *         description: successful
+   *       400:
+   *         description: Bad request. Invalid.
+   */
+
+  app.post("/comment", verifyToken, comment);
+
+
+  /**
+   * @openapi
+   * /unfollow:
+   *   post:
+   *     tags:
+   *     - Unfollow a user
+   *     description: Unfollow a user.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               id:
+   *                 type: number
+   *                description:
+   *                  type:string
+   *     responses:
+   *       201:
+   *         description: successful
+   *       400:
+   *         description: Bad request. Invalid.
+   */
+
+  app.post("/unfollow", verifyToken, unfollowRequest);
+  
 };

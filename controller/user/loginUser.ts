@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { userData } from "../models/insta_user";
-import { loginSchema } from "../validation/userValidate";
-import { generateToken } from "../service/generateToken";
+import { userData } from "../../models/insta_user";
+import { loginSchema } from "../../validation/userValidate";
+import { generateToken } from "../../service/generateToken";
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
@@ -18,6 +18,7 @@ export const loginUser = async (req: Request, res: Response) => {
       
 
       if (user) {
+        
         req.body.id = user?.id;
         console.log('lllll');
         

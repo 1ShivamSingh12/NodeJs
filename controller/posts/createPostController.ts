@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { postData } from "../models/post";
-import { userData } from "../models/insta_user";
+import { postData } from "../../models/post";
+import { userData } from "../../models/insta_user";
 import { number } from "joi";
 
 export const insertPost = async (req: Request, res: Response) => {
   try {
     
-    let userId = new mongoose.Types.ObjectId(req.body.user_id.id);
-
+    let userId = new mongoose.Types.ObjectId(req.body.user_id);
+    console.log(req.body.user_id);
+    
+    
     // let result = await postData.insertMany([
     //   {
     //     user_id: userId,

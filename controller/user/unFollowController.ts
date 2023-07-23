@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { userData } from "../models/insta_user";
+import { userData } from "../../models/insta_user";
 import mongoose from "mongoose";
 
-export const followRequest = async (req: Request, res: Response) => {
+export const unfollowRequest = async (req: Request, res: Response) => {
   let { user_id } = req.body;
 
   let receiverId = new mongoose.Types.ObjectId(req.body.receiverId);

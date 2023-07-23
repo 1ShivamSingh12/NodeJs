@@ -1,7 +1,7 @@
-import { userData } from "../models/insta_user";
+import { userData } from "../../models/insta_user";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { registerSchema } from "../validation/userValidate";
+import { registerSchema } from "../../validation/userValidate";
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
