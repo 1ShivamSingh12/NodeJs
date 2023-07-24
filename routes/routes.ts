@@ -99,20 +99,27 @@ export const routes = (app: Application) => {
    *     tags:
    *     - Follow a user
    *     description: Follow a user.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Bearer token for authentication.
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
    *       content:
    *         application/json:
-   *          schema:
+   *           schema:
    *             type: object
    *             properties:
    *               sender_id:
-   *                 type: number
+   *                 type: string
    *               receiver_id:
-   *                 type:number
+   *                 type: string
    *               status:
-   *                 type:string 
+   *                 type: string
    *     responses:
    *       201:
    *         description: successful
@@ -122,23 +129,39 @@ export const routes = (app: Application) => {
 
   app.post("/follow", verifyToken, followRequest);
 
- /**
+  /**
    * @openapi
    * /addPost:
    *   post:
    *     tags:
-   *     - Add a post
-   *     description: Add a post.
+   *     - Create a post
+   *     description: Create post.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Bearer token for authentication.
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
    *       content:
    *         application/json:
-   *          schema:
+   *           schema:
    *             type: object
    *             properties:
-   *               id:
-   *                 type: number
+   *               user_id:
+   *                 type: string
+   *               image:
+   *                 type: string
+   *               description:
+   *                 type: string
+   *               tags:
+ *                   type: object
+ *                   properties:
+ *                     user_id:
+ *                       type: string
    *     responses:
    *       201:
    *         description: successful
@@ -153,18 +176,21 @@ export const routes = (app: Application) => {
    * /likePost:
    *   post:
    *     tags:
-   *     - Liked a post
-   *     description: Liked a post.
+   *     - Post like
+   *     description: Post like.
+   *
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
    *       content:
    *         application/json:
-   *          schema:
+   *           schema:
    *             type: object
    *             properties:
-   *               id:
-   *                 type: number
+   *               post_id:
+   *                 type: string
+   *               user_id:
+   *                 type: string
    *     responses:
    *       201:
    *         description: successful
@@ -174,30 +200,51 @@ export const routes = (app: Application) => {
 
   app.post("/likePost", verifyToken, likePost);
 
- /**
+  /**
    * @openapi
    * /comment:
    *   post:
    *     tags:
-   *     - Comment on a post
-   *     description: Comment on a post.
+   *     - Add a comment
+   *     description: Add a comment.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Bearer token for authentication.
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
    *       content:
    *         application/json:
-   *          schema:
+   *           schema:
    *             type: object
    *             properties:
-   *               id:
+   *               post_id:
+   *                 type: string
+   *               user_id:
+   *                 type: string
+   *               comment_description:
+   *                 type: string
+   *               comment_likes:
    *                 type: number
+   *               comment_reply:
+ *                   type: object
+ *                   properties:
+ *                     user_id:
+ *                       type: string
+ *                     reply_desc:
+ *                       type: string
+ *                     reply_likes:
+ *                       type: number
    *     responses:
    *       201:
    *         description: successful
    *       400:
    *         description: Bad request. Invalid.
    */
-
   app.post("/comment", verifyToken, comment);
 
   /**
