@@ -8,8 +8,11 @@ import { registerUser } from "../controller/user/signUpController";
 import { verifyToken } from "../middleware/token";
 import { comment } from "../controller/posts/commentController";
 import { unfollowRequest } from "../controller/user/unFollowController";
+
 const app = express();
+
 app.use(express.json());
+
 export const routes = (app: Application) => {
   /**
    * @openapi
@@ -66,7 +69,20 @@ export const routes = (app: Application) => {
    *       content:
    *         application/json:
    *           schema:
-   *              $ref: '#/components/schemas/User'
+   *             type: object
+   *             properties:
+   *               name:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *               username:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *               bio:
+   *                 type: string
+   *               profilePic:
+   *                 type: string
    *     responses:
    *       201:
    *         description: SignUp successful
@@ -81,28 +97,32 @@ export const routes = (app: Application) => {
    * /follow:
    *   post:
    *     tags:
-   *     - Follow a User
-   *     description: Follow a User.
+   *     - Follow a user
+   *     description: Follow a user.
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
    *       content:
    *         application/json:
-   *              schema:
+   *          schema:
    *             type: object
    *             properties:
-   *               id:
+   *               sender_id:
    *                 type: number
+   *               receiver_id:
+   *                 type:number
+   *               status:
+   *                 type:string 
    *     responses:
    *       201:
-   *         description: Successful
+   *         description: successful
    *       400:
    *         description: Bad request. Invalid.
    */
 
   app.post("/follow", verifyToken, followRequest);
 
-  /**
+ /**
    * @openapi
    * /addPost:
    *   post:
@@ -114,13 +134,11 @@ export const routes = (app: Application) => {
    *       required: true
    *       content:
    *         application/json:
-   *           schema:
+   *          schema:
    *             type: object
    *             properties:
-   *               image:
-   *                 type: string
-   *               description:
-   *                  type:string
+   *               id:
+   *                 type: number
    *     responses:
    *       201:
    *         description: successful
@@ -156,26 +174,23 @@ export const routes = (app: Application) => {
 
   app.post("/likePost", verifyToken, likePost);
 
-
  /**
    * @openapi
    * /comment:
    *   post:
    *     tags:
-   *     - Comment on post
-   *     description: Comment on post.
+   *     - Comment on a post
+   *     description: Comment on a post.
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
    *       content:
    *         application/json:
-   *           schema:
+   *          schema:
    *             type: object
    *             properties:
    *               id:
    *                 type: number
-   *                description:
-   *                  type:string
    *     responses:
    *       201:
    *         description: successful
@@ -184,7 +199,6 @@ export const routes = (app: Application) => {
    */
 
   app.post("/comment", verifyToken, comment);
-
 
   /**
    * @openapi
@@ -198,13 +212,11 @@ export const routes = (app: Application) => {
    *       required: true
    *       content:
    *         application/json:
-   *           schema:
+   *          schema:
    *             type: object
    *             properties:
    *               id:
    *                 type: number
-   *                description:
-   *                  type:string
    *     responses:
    *       201:
    *         description: successful
@@ -213,5 +225,4 @@ export const routes = (app: Application) => {
    */
 
   app.post("/unfollow", verifyToken, unfollowRequest);
-  
 };

@@ -12,6 +12,7 @@ const options:swaggerJSDoc.Options = {
             title:"Instagram API Docs",
             version:'1.0.0'
         },
+        schemas:['http' , 'https'],
         servers:[
         {
             url:"http://localhost:3000/"
