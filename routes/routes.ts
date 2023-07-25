@@ -1,13 +1,13 @@
 import express, { Application } from "express";
 import { insertPost } from "../controller/posts/createPostController";
-import { followRequest } from "../controller/user/followerCount";
-import { getUsers } from "../controller/user/getUserController";
-import { loginUser } from "../controller/user/loginUser";
+import { followRequest } from "../controller/userController/followerCount";
+import { getUsers } from "../controller/userController/getUserController";
+import { loginUser } from "../controller/userController/loginUser";
 import { likePost } from "../controller/posts/postLikeController";
-import { registerUser } from "../controller/user/signUpController";
+import { registerUser } from "../controller/userController/signUpController";
 import { verifyToken } from "../middleware/token";
 import { comment } from "../controller/posts/commentController";
-import { unfollowRequest } from "../controller/user/unFollowController";
+import { unfollowRequest } from "../controller/userController/unFollowController";
 
 const app = express();
 
