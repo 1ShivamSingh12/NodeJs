@@ -10,7 +10,7 @@ enum FollowAction {
 const followData = new mongoose.Schema({
     sender_id:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'post' 
+        ref: 'User' 
     },
     receiver_id:{
         type: mongoose.Schema.Types.ObjectId,

@@ -1,13 +1,8 @@
 import express, { Application } from "express";
-import { insertPost } from "../controller/posts/createPostController";
-import { followRequest } from "../controller/userController/followerCount";
-import { getUsers } from "../controller/userController/getUserController";
-import { loginUser } from "../controller/userController/loginUser";
-import { likePost } from "../controller/posts/postLikeController";
-import { registerUser } from "../controller/userController/signUpController";
+import { getUsers, loginUser, registerUser } from "../controller/userController";
+import { followRequest, getFollowing, unfollowRequest } from "../controller/followController";
+import { insertPost, likePost, comment } from "../controller/postController";
 import { verifyToken } from "../middleware/token";
-import { comment } from "../controller/posts/commentController";
-import { unfollowRequest } from "../controller/userController/unFollowController";
 
 const app = express();
 
@@ -272,4 +267,48 @@ export const routes = (app: Application) => {
    */
 
   app.post("/unfollow", verifyToken, unfollowRequest);
+
+   /**
+ * @openapi
+ * /getFollowing:
+ *  get:
+ *    tags:
+ *    - Get user following
+ *    description: Fetch all the profile user follows.
+ *    parameters:
+ *    - in: header
+ *      name: authorization
+ *      description: An authentication token.
+ *      required: true
+ *      schema:
+ *        type: string
+ *    responses:
+ *      200:
+ *        description: App is up and running
+ */
+
+   app.get("/getFollowing",verifyToken, getFollowing);
+
+   /**
+ * @openapi
+ * /getFollower:
+ *  get:
+ *    tags:
+ *    - Get user follower
+ *    description: Fetch all the user follower list.
+ *    parameters:
+ *    - in: header
+ *      name: authorization
+ *      description: An authentication token.
+ *      required: true
+ *      schema:
+ *        type: string
+ *    responses:
+ *      200:
+ *        description: App is up and running
+ */
+
+   app.get("/getFollower",verifyToken, getFollowing);
+
+
 };

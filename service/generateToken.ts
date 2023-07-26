@@ -1,17 +1,18 @@
 import jwt from "jsonwebtoken";
 import { Response, Request } from "express";
 import { SessionData } from "../models/session";
-import { createClient } from "redis";
+import { client } from "../utils/swagger";
+import * as dotenv from "dotenv";
 
-const client = createClient();
 
-const secretKey = "qwetygjkvuyfy";
+dotenv.config();
+
+const key:string = <string>process.env.SECRETKEY
 
 export const generateToken = async (req: Request, res: Response) => {
-    await client.connect();
     console.log(req.body.id , 'token');
-    
-    const token = jwt.sign(req.body.id, secretKey);
+  
+    const token = jwt.sign(req.body.id, key);
   
     let session_payload: object = {
       user_id: req.body.id,
