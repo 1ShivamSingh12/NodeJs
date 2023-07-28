@@ -6,6 +6,8 @@ import {
 } from "../validation/onboardingValidation";
 import { Users } from "../models/userModels";
 import { generateToken } from "../service/tokenGeneration";
+import { Sessions } from "../models/Session";
+import { client } from "../config/db";
 
 export const signUp = async (req: Request, res: Response) => {
 
@@ -111,4 +113,18 @@ export const getProfile = async(req:Request , res:Response) =>{
   res.send(profile)
 }
 
+
+export const logOut = async(req:Request , res:Response) =>{
+  
+  try {
+    if(req.body){
+      let result  = await Sessions.destroy({where:{user_id : req.body.user_id}})
+      let redisUpdate = await client.DEL(`${req.body.user_id}_session`)
+    }
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
 

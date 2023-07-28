@@ -2,6 +2,7 @@ import { Application } from "express";
 import {
   forgetPassword,
   getProfile,
+  logOut,
   loginUser,
   signUp,
   updateProfile,
@@ -156,4 +157,26 @@ export const routes = (app: Application) => {
  */
 
   app.get("/getProfile",verifyToken, getProfile);
+
+  /**
+ * @openapi
+ * /logOut:
+ *   post:
+ *     tags:
+ *       - Log out user
+ *     description: Log out user.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Bearer token for authentication
+ *     responses:
+ *       200:
+ *         description: App is up and running
+ */
+
+  app.post("/logOut",verifyToken, logOut);
+  
 };

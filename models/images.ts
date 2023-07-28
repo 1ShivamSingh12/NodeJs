@@ -19,7 +19,7 @@ Images.init(
       allowNull: false,
     },
     images: {
-      type: DataTypes.BLOB,
+      type: DataTypes.BLOB("long"),
       allowNull: false,
     },
   },

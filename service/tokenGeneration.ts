@@ -20,19 +20,27 @@ export const generateToken = async (req: Request, res: Response) => {
     sessionId: "1234ytfy",
     deviceType: "Goggle Chrome",
   };
-  
-  let data : Sessions = await Sessions.create(session_payload)
-  console.log(data);
-  
+
+
+  let user_exist = await Sessions.findAll(
+    {
+      where:{
+        user_id: req.body.id,
+      }
+    }
+  )
+
   
   res.send(token);
-  
   try {
-    if(!data){
+    if(user_exist[0] == undefined){
+      let data : Sessions = await Sessions.create(session_payload)
+      console.log(data);
+      
         let result = await client.set(
           `${req.body.id}_session`,
           JSON.stringify(session_payload)
-        );
+          );
       
         let result1 = await client.get(`${req.body.id}_session`);
         

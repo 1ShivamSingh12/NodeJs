@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import { client } from "../config/db";
 import { where } from "sequelize";
+import { Sessions } from "../models/Session";
 
 dotenv.config();
 
@@ -18,15 +19,15 @@ export const verifyToken = (req: Request, res: Response, next: any) => {
         
         req.body.user_id = decodeToken;
 
-        next();
-        // let findSession:any = (await client.get(`${decodeToken}_session`)) ||  (await Sessions.findAll({ where: {userId : decodeToken}}));
-
-        // console.log(findSession, "sdfwefwe");
-
-        // if (findSession.length != 0) {
-        // } else {
-        //   res.send("Invalid User");
-        // }
+        let findSession:any = (await client.get(`${decodeToken}_session`)) ||  (await Sessions.findAll({ where: {userId : decodeToken}}));
+        
+        console.log(findSession, "sdfwefwe");
+        
+        if (findSession.length != 0) {
+          next();
+        } else {
+          res.send("Invalid User");
+        }
       } else {
         res.send(err);
       }
