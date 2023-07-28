@@ -8,8 +8,9 @@ import { Users } from "../models/userModels";
 import { generateToken } from "../service/tokenGeneration";
 
 export const signUp = async (req: Request, res: Response) => {
+
+
   try {
-    
     const { error } = await registerSchema.validateAsync(req.body);
     let securePass = await bcrypt.hash(req.body.password, 10);
     req.body.password = securePass;
@@ -26,6 +27,7 @@ export const signUp = async (req: Request, res: Response) => {
 };
 
 export const loginUser = async (req: Request, res: Response) => {
+  
   try {
     const error = loginSchema.validateAsync(req.body);
 
@@ -93,6 +95,20 @@ export const forgetPassword = async(req:Request , res:Response) =>{
     
   }
   
+}
+
+
+export const getProfile = async(req:Request , res:Response) =>{
+  
+  let profile = await Users.findAll(
+    {
+      where:{
+        id:req.body.user_id
+      }
+    }
+  )
+
+  res.send(profile)
 }
 
 

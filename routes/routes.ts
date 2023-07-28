@@ -1,58 +1,63 @@
 import { Application } from "express";
-import { forgetPassword, loginUser, signUp, updateProfile } from "../controller/onboardingController";
+import {
+  forgetPassword,
+  getProfile,
+  loginUser,
+  signUp,
+  updateProfile,
+} from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
 
 export const routes = (app: Application) => {
   /**
- * @openapi
- * /signUp:
- *  post:
- *    tags:
- *    - Register User
- *    description: Register a new user.
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            type: object
- *            properties:
- *              first_name:
- *                type: string
- *              last_name:
- *                type: string
- *              email:
- *                type: string
- *              password:
- *                type: string
- *              profilePic:
- *                type: string
- *                format: binary
- *              phone_number:
- *                type: number
- *              gender:
- *                type: string
- *            required:
- *              - first_name
- *              - last_name
- *              - email
- *              - password
- *              - profilePic
- *              - phone_number
- *              - gender
- *    responses:
- *      200:
- *        description: User registration successful.
- *      400:
- *        description: Bad Request - Invalid data provided.
- *      500:
- *        description: Internal Server Error - Failed to register user.
- */
+   * @openapi
+   * /signUp:
+   *  post:
+   *    tags:
+   *    - Register User
+   *    description: Register a new user.
+   *    requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *          schema:
+   *            type: object
+   *            properties:
+   *              first_name:
+   *                type: string
+   *              last_name:
+   *                type: string
+   *              email:
+   *                type: string
+   *              password:
+   *                type: string
+   *              profilePic:
+   *                type: string
+   *                format: binary
+   *              phone_number:
+   *                type: number
+   *              gender:
+   *                type: string
+   *            required:
+   *              - first_name
+   *              - last_name
+   *              - email
+   *              - password
+   *              - profilePic
+   *              - phone_number
+   *              - gender
+   *    responses:
+   *      200:
+   *        description: User registration successful.
+   *      400:
+   *        description: Bad Request - Invalid data provided.
+   *      500:
+   *        description: Internal Server Error - Failed to register user.
+   */
 
-  
-    app.post("/signUp", signUp);
+  app.post("/signUp", signUp);
 
-    /**
+  /**
    * @openapi
    * /login:
    *   post:
@@ -80,7 +85,7 @@ export const routes = (app: Application) => {
 
   app.post("/login", loginUser);
 
-   /**
+  /**
    * @openapi
    * /updateProfile:
    *   post:
@@ -101,9 +106,9 @@ export const routes = (app: Application) => {
    *         description: Bad request.
    */
 
-   app.post("/updateProfile", verifyToken, updateProfile);
+  app.post("/updateProfile", verifyToken, updateProfile);
 
-    /**
+  /**
    * @openapi
    * /forgetPassword:
    *   post:
@@ -129,6 +134,26 @@ export const routes = (app: Application) => {
    *         description: Bad request.
    */
 
-    app.post("/forgetPassword", verifyToken, forgetPassword);
+  app.post("/forgetPassword", verifyToken, forgetPassword);
 
-}
+ /**
+ * @openapi
+ * /getUsers:
+ *   get:
+ *     tags:
+ *       - Get user
+ *     description: Fetch all the users registered.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Bearer token for authentication
+ *     responses:
+ *       200:
+ *         description: App is up and running
+ */
+
+  app.get("/getProfile",verifyToken, getProfile);
+};
