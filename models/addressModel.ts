@@ -1,23 +1,22 @@
-import { Model, DataTypes, IntegerDataType } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/db";
 
-enum addressEnum {
-  WORK = "work",
+enum address_type {
   HOME = "home",
+  WORK = "work",
   DEFAULT = "default",
 }
 
 export class Address extends Model {
   public id!: number;
   public user_id!: number;
-
   public street1!: string;
   public street2!: string;
-  public landmark!: string;
+  public landmark!: number;
   public city!: string;
   public state!: string;
-  public address_type!: addressEnum;
-  public zip_code!: number;
+  public address_type!: address_type;
+  public zip_code!: bigint;
 }
 
 Address.init(
@@ -26,7 +25,9 @@ Address.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
+
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -36,10 +37,12 @@ Address.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+
     street2: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+
     landmark: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -48,37 +51,22 @@ Address.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-
     state: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-
     address_type: {
-      type: DataTypes.ENUM(
-        addressEnum.WORK,
-        addressEnum.HOME,
-        addressEnum.DEFAULT
-      ),
-      allowNull: false,
-    },
-
-    zip_code: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-    },
+        type: DataTypes.ENUM(address_type.HOME , address_type.WORK , address_type.DEFAULT),
+        allowNull: false,
+      },
+      zip_code: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
   },
 
   {
     sequelize,
-    modelName: "Users",
+    modelName: "Address",
   }
 );
-
-// Users.sync()
-//   .then(() => {
-//     console.log("Sequelize models synchronized");
-//   })
-//   .catch((err: Error) => {
-//     console.error("Sequelize sync error:", err);
-//   });

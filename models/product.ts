@@ -8,7 +8,6 @@ export class Products extends Model {
   public category_id!: number;
   public address_id!: number;
   public bidder_id!: number;
-  public image_id!: number;
   public name!: string;
   public description!: string;
   public price!: bigint;
@@ -21,6 +20,7 @@ Products.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey:true
     },
 
     owner_id: {
@@ -40,12 +40,7 @@ Products.init(
 
     bidder_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-    image_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
 
     name: {
@@ -65,7 +60,7 @@ Products.init(
 
     latestBid: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
     },
   },
 

@@ -1,5 +1,6 @@
 import { Application } from "express";
 import {
+  addAddress,
   forgetPassword,
   getProfile,
   logOut,
@@ -8,6 +9,7 @@ import {
   updateProfile,
 } from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
+import { addProduct } from "../controller/productsController";
 
 export const routes = (app: Application) => {
   /**
@@ -57,6 +59,45 @@ export const routes = (app: Application) => {
    */
 
   app.post("/signUp", signUp);
+
+  /**
+   * @openapi
+   * /addAddress:
+   *  post:
+   *    tags:
+   *    - Adding address of user
+   *    description: Adding address of user.
+   *    requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *          schema:
+   *            type: object
+   *            properties:
+   *              street1:
+   *                type: string
+   *              street2:
+   *                type: string
+   *              landmark:
+   *                type: string
+   *              city:
+   *                type: string
+   *              state:
+   *                type: string
+   *              address_type:
+   *                type: string
+   *              zip_code:
+   *                type: bigint
+   *    responses:
+   *      200:
+   *        description: Address Insertion successful.
+   *      400:
+   *        description: Bad Request - Invalid data provided.
+   *      500:
+   *        description: Internal Server Error - Failed to register user.
+   */
+
+  app.post("/addAddress",verifyToken, addAddress);
 
   /**
    * @openapi
@@ -137,46 +178,77 @@ export const routes = (app: Application) => {
 
   app.post("/forgetPassword", verifyToken, forgetPassword);
 
- /**
- * @openapi
- * /getUsers:
- *   get:
- *     tags:
- *       - Get user
- *     description: Fetch all the users registered.
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         schema:
- *           type: string
- *         required: true
- *         description: Bearer token for authentication
- *     responses:
- *       200:
- *         description: App is up and running
- */
+  /**
+   * @openapi
+   * /getUsers:
+   *   get:
+   *     tags:
+   *       - Get user
+   *     description: Fetch all the users registered.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
 
-  app.get("/getProfile",verifyToken, getProfile);
+  app.get("/getProfile", verifyToken, getProfile);
 
   /**
- * @openapi
- * /logOut:
- *   post:
- *     tags:
- *       - Log out user
- *     description: Log out user.
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         schema:
- *           type: string
- *         required: true
- *         description: Bearer token for authentication
- *     responses:
- *       200:
- *         description: App is up and running
- */
+   * @openapi
+   * /logOut:
+   *   post:
+   *     tags:
+   *       - Log out user
+   *     description: Log out user.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
 
-  app.post("/logOut",verifyToken, logOut);
+  app.post("/logOut", verifyToken, logOut);
+
+  /**
+   * @openapi
+   * /addProduct:
+   *  post:
+   *    tags:
+   *    - Add product
+   *    description: Add product.
+   *    requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *          schema:
+   *            type: object
+   *            properties:
+   *              name:
+   *                type: string
+   *              description:
+   *                type: string
+   *              price:
+   *                type: bigint
+   *    responses:
+   *      200:
+   *        description: User registration successful.
+   *      400:
+   *        description: Bad Request - Invalid data provided.
+   *      500:
+   *        description: Internal Server Error - Failed to register user.
+   */
+
+  app.post("/addProduct", verifyToken, addProduct);
   
 };

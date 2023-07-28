@@ -14,6 +14,12 @@ Category.init(
       type: DataTypes.STRING,
       allowNull: false,
       autoIncrement: true,
+      primaryKey:true
+    },
+
+    parent_id:{
+      type:DataTypes.INTEGER,
+      allowNull:true
     },
     
     category_name: {
@@ -22,7 +28,7 @@ Category.init(
     },
 
     category_image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.BLOB('long'),
       allowNull: false,
       unique: true,
     },

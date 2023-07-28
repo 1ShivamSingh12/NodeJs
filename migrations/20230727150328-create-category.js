@@ -9,6 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+
+      parent_id:{
+        type:Sequelize.INTEGER,
+      },
       category_name: {
         type: Sequelize.STRING
       },
@@ -16,11 +20,11 @@ module.exports = {
         type: Sequelize.BLOB
       },
       createdAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

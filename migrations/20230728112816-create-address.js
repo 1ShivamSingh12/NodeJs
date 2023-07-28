@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       address_type: {
-        type: Sequelize.ENUM('work','home','default')
+        type: Sequelize.ENUM("home", "work", "default")
       },
       zip_code: {
         type: Sequelize.BIGINT

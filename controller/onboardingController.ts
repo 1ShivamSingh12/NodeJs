@@ -4,14 +4,13 @@ import {
   loginSchema,
   registerSchema,
 } from "../validation/onboardingValidation";
+import { Address } from "../models/addressModel";
 import { Users } from "../models/userModels";
 import { generateToken } from "../service/tokenGeneration";
 import { Sessions } from "../models/Session";
 import { client } from "../config/db";
 
 export const signUp = async (req: Request, res: Response) => {
-
-
   try {
     const { error } = await registerSchema.validateAsync(req.body);
     let securePass = await bcrypt.hash(req.body.password, 10);
@@ -29,7 +28,6 @@ export const signUp = async (req: Request, res: Response) => {
 };
 
 export const loginUser = async (req: Request, res: Response) => {
-  
   try {
     const error = loginSchema.validateAsync(req.body);
 
@@ -54,77 +52,90 @@ export const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-
-
 export const updateProfile = async (req: Request, res: Response) => {
-
   try {
-    if(req.body){
+    if (req.body) {
       const updateData = await Users.update(
         { first_name: req.body.first_name },
         { where: { id: req.body.user_id } }
       );
-      res.send('Updated')
-    }else{
-      res.send('Invalid')
+
+      res.send("Updated");
+    } else {
+      res.send("Invalid");
     }
-    
   } catch (error) {
-    res.send(error)
+    res.send(error);
   }
-  
 };
 
+export const addAddress = async (req: Request, res: Response) => {
+  try {
+    if (req.body) {
+      console.log(req.body);
+      let payload = {
+        ...req.body,
+        user_id: req.body.user_id,
+      };
+      console.log(Address, Users);
 
-export const forgetPassword = async(req:Request , res:Response) =>{
+      let result = await Address.create(payload);
+
+      console.log(result);
+
+      if(result){
+        res.status(200).send('Address inserted')
+      }else{
+        res.send('Not inserted')
+
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const forgetPassword = async (req: Request, res: Response) => {
   console.log(req.body);
 
   try {
-    if(req.body){
-      if(req.body.newPassword == req.body.confirmPassword){
+    if (req.body) {
+      if (req.body.newPassword == req.body.confirmPassword) {
         let securePass = await bcrypt.hash(req.body.newPassword, 10);
         const updateData = await Users.update(
           { password: securePass },
           { where: { id: req.body.user_id } }
         );
 
-        res.send('Changed')
-      }else{
-        res.send('Password do not match')
+        res.send("Changed");
+      } else {
+        res.send("Password do not match");
       }
     }
-  } catch (error) {
-    
-  }
-  
-}
+  } catch (error) {}
+};
 
+export const getProfile = async (req: Request, res: Response) => {
+  let profile = await Users.findAll({
+    where: {
+      id: req.body.user_id,
+    },
+  });
 
-export const getProfile = async(req:Request , res:Response) =>{
-  
-  let profile = await Users.findAll(
-    {
-      where:{
-        id:req.body.user_id
-      }
-    }
-  )
+  res.send(profile);
+};
 
-  res.send(profile)
-}
-
-
-export const logOut = async(req:Request , res:Response) =>{
-  
+export const logOut = async (req: Request, res: Response) => {
   try {
-    if(req.body){
-      let result  = await Sessions.destroy({where:{user_id : req.body.user_id}})
-      let redisUpdate = await client.DEL(`${req.body.user_id}_session`)
+    if (req.body) {
+      let result = await Sessions.destroy({
+        where: { user_id: req.body.user_id },
+      });
+      let redisUpdate = await client.DEL(`${req.body.user_id}_session`);
     }
-    
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
+
 

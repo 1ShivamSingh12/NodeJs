@@ -1,5 +1,6 @@
 import { createClient } from "redis";
 
+
 const Sequelize = require("sequelize");
 
 export const sequelize = new Sequelize("olx_demo", "postgres", "shivam123", {

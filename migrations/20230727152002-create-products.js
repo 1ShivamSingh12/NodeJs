@@ -21,9 +21,6 @@ module.exports = {
       bidder_id: {
         type: Sequelize.INTEGER
       },
-      image_id: {
-        type: Sequelize.INTEGER
-      },
       name: {
         type: Sequelize.STRING
       },
