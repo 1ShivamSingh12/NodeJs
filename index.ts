@@ -3,8 +3,7 @@ import * as dotenv from "dotenv";
 import {client, connection } from "./config/db";
 import { swaggerDoc } from "./swaggerConnection/swagger";
 import { routes } from "./routes/routes";
-import path from 'path';
-import fs from 'fs'
+
 
 dotenv.config();
 

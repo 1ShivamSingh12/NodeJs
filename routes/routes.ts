@@ -9,7 +9,9 @@ import {
   updateProfile,
 } from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
-import { addProduct } from "../controller/productsController";
+import { addProduct, getCategories, profileDetails, updateProduct, uploadImage } from "../controller/productsController";
+import multer from "multer";
+import { Multer } from "../middleware/multer";
 
 export const routes = (app: Application) => {
   /**
@@ -250,5 +252,58 @@ export const routes = (app: Application) => {
    */
 
   app.post("/addProduct", verifyToken, addProduct);
-  
+
+
+
+  app.post("/uploadImage/:id", verifyToken , Multer.single('file'), uploadImage)
+
+
+  app.get("/getCategories", getCategories)
+
+
+  /**
+   * @openapi
+   * /profileDtail:
+   *   get:
+   *     tags:
+   *       - Get profile Detail
+   *     description: Get profile detail
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
+
+  app.get("/profileDtail/:id", verifyToken, profileDetails);
+
+
+  /**
+   * @openapi
+   * /updateProduct:
+   *   post:
+   *     tags:
+   *     - Update Product
+   *     description: Update Product.
+   *     requestBody:
+   *       description: User object that needs to be added to the system.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *     responses:
+   *       201:
+   *         description: Updated successful
+   *       400:
+   *         description: Bad request.
+   */
+
+  app.post("/updateProduct/:id", verifyToken, updateProduct);
+
 };

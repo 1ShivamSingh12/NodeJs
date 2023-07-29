@@ -1,32 +1,127 @@
 import { Request, Response } from "express";
-import { Category } from "../models/categoryModule";
-import { Products } from "../models/product";
+import { Category } from "../models/categoryModel";
+import { Products } from "../models/productModel";
+import fs from "fs";
+import path from "path";
+import { Images } from "../models/imagesModel";
+import { Users } from "../models/userModels";
+import { Address } from "../models/addressModel";
 
-export const addProduct = async(req: Request, res: Response) => {
-
+export const addProduct = async (req: Request, res: Response) => {
   try {
-    let result = await Category.findOne({where:{
-        category_name : req.body.category
-    }})
+    let result = await Category.findOne({
+      where: {
+        category_name: req.body.category,
+      },
+    });
 
     const { category, ...body } = req.body;
-    
-    let payload = {
-        ...body,
-        owner_id : req.body.user_id,
-        category_id : result?.dataValues.id,
-        latestBid:req.body.price
-    }
 
-    let insertedData = await Products.create(payload)
-    if(insertedData){
-        res.status(201).json({"message":"success","data":"inserted"})
-    }else{
-        res.send('Not inserted')
+    let payload = {
+      ...body,
+      owner_id: req.body.user_id,
+      category_id: result?.dataValues.id,
+      latestBid: req.body.price,
+    };
+
+    let insertedData = await Products.create(payload);
+    if (insertedData) {
+      res.status(201).json({ message: "success", data: "inserted" });
+    } else {
+      res.send("Not inserted");
     }
-    
   } catch (error) {
     console.log(error);
-    
   }
 };
+
+export const uploadImage = async (req: Request, res: Response) => {
+  try {
+    console.log(req.file?.filename);
+    const imagePath = path.join("uploads", <string>req.file?.filename);
+    console.log(imagePath);
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    let payload = {
+      product_id: req.params.id,
+      images: imageBuffer,
+    };
+    console.log(payload);
+
+    let result = await Images.create(payload);
+
+    if (result) {
+      res.status(200).send("Uploaded Successfuly");
+    } else {
+      res.status(200).send("Error");
+    }
+  } catch (error) {}
+};
+
+export const getCategories = async (req: Request, res: Response) => {
+  try {
+    let result = await Category.findAll({
+      where: {
+        parent_id: 0,
+      },
+    });
+
+    res.send(result);
+  } catch (error) {
+   res.send(error) 
+  }
+};
+
+
+export const profileDetails = async (req: Request, res: Response) => {
+  try {
+
+  
+    let [productDetail] = await Products.findAll({where:{
+      id:req.params.id
+    }})
+    
+    let user = await Users.findAll({where:{
+      id : productDetail.dataValues.owner_id
+    }})
+
+    let category = await Category.findAll({
+      where:{
+      id : productDetail.dataValues.category_id
+      }
+    })
+
+    let address = await Address.findAll({
+      where:{
+      id : productDetail.dataValues.address_id
+      }
+    })
+
+    console.log(productDetail);
+    
+    res.send('done')
+    
+  } catch (error) {
+   res.send(error) 
+  }
+
+
+};
+
+
+export const updateProduct = async(req:Request , res:Response) =>{
+  console.log(req.body);
+  
+  try {
+    let result = await Products.update(
+      {price : req.body.price , latestBid : req.body.price , name : req.body.name},
+      {where:{id:req.params.id}}
+    )
+    console.log(result);
+
+    res.send('Updated')
+    
+  } catch (error) {
+    res.send(error)
+  }
+}

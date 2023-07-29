@@ -1,5 +1,7 @@
-import { Model, DataTypes, IntegerDataType } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/db";
+import { Users } from "./userModels";
+import { Category } from "./categoryModel";
 
 
 export class Products extends Model {
@@ -70,10 +72,5 @@ Products.init(
   }
 );
 
-// Users.sync()
-//   .then(() => {
-//     console.log("Sequelize models synchronized");
-//   })
-//   .catch((err: Error) => {
-//     console.error("Sequelize sync error:", err);
-//   });
+Products.belongsTo(Users, { foreignKey: 'owner_id' });
+Products.belongsTo(Category, { foreignKey: 'category_id' });

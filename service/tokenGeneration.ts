@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Response, Request } from "express";
 import * as dotenv from "dotenv";
-import { Sessions } from "../models/Session";
+import { Sessions } from "../models/SessionModel";
 import { client } from "../config/db";
 
 dotenv.config();

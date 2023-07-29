@@ -49,3 +49,5 @@ Category.init(
 //   }).catch((err:Error) => {
 //     console.error('Sequelize sync error:', err);
 //   });
+
+

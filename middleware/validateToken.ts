@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import { client } from "../config/db";
 import { where } from "sequelize";
-import { Sessions } from "../models/Session";
+import { Sessions } from "../models/SessionModel";
 
 dotenv.config();
 

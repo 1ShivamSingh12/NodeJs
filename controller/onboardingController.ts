@@ -7,7 +7,7 @@ import {
 import { Address } from "../models/addressModel";
 import { Users } from "../models/userModels";
 import { generateToken } from "../service/tokenGeneration";
-import { Sessions } from "../models/Session";
+import { Sessions } from "../models/SessionModel";
 import { client } from "../config/db";
 
 export const signUp = async (req: Request, res: Response) => {
@@ -137,5 +137,3 @@ export const logOut = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
-
-

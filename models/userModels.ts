@@ -74,11 +74,3 @@ Users.init(
     modelName: "Users",
   }
 );
-
-// Users.sync()
-//   .then(() => {
-//     console.log("Sequelize models synchronized");
-//   })
-//   .catch((err: Error) => {
-//     console.error("Sequelize sync error:", err);
-//   });
