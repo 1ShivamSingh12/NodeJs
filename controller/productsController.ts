@@ -37,23 +37,30 @@ export const addProduct = async (req: Request, res: Response) => {
 
 export const uploadImage = async (req: Request, res: Response) => {
   try {
-    console.log(req.file?.filename);
-    const imagePath = path.join("uploads", <string>req.file?.filename);
-    console.log(imagePath);
-    const imageBuffer = fs.readFileSync(imagePath);
+    const blobsFile = [];
 
-    let payload = {
-      product_id: req.params.id,
-      images: imageBuffer,
-    };
-    console.log(payload);
+    if (req.files && Array.isArray(req.files)) {
+      for (const file of req.files) {
+        const imagePath = path.join("uploads", <string>file?.filename);
+        const imageBuffer = fs.readFileSync(imagePath);
+        const blobFile = Buffer.from(imageBuffer);
 
-    let result = await Images.create(payload);
+        blobsFile.push(blobFile);
+      }
 
-    if (result) {
-      res.status(200).send("Uploaded Successfuly");
-    } else {
-      res.status(200).send("Error");
+      for (const file of blobsFile) {
+        let payload = {
+          product_id: req.params.id,
+          images: file,
+        };
+        // console.log(payload);
+        let result = await Images.create(payload);
+        if (result) {
+          res.status(200).send("Uploaded Successfuly");
+        } else {
+          res.status(200).send("Error");
+        }
+      }
     }
   } catch (error) {}
 };
@@ -68,60 +75,75 @@ export const getCategories = async (req: Request, res: Response) => {
 
     res.send(result);
   } catch (error) {
-   res.send(error) 
+    res.send(error);
   }
 };
-
 
 export const profileDetails = async (req: Request, res: Response) => {
   try {
+    let [productDetail] = await Products.findAll({
+      where: {
+        id: req.params.id,
+      },
+    });
 
-  
-    let [productDetail] = await Products.findAll({where:{
-      id:req.params.id
-    }})
-    
-    let user = await Users.findAll({where:{
-      id : productDetail.dataValues.owner_id
-    }})
+    let user = await Users.findAll({
+      where: {
+        id: productDetail.dataValues.owner_id,
+      },
+    });
 
     let category = await Category.findAll({
-      where:{
-      id : productDetail.dataValues.category_id
-      }
-    })
+      where: {
+        id: productDetail.dataValues.category_id,
+      },
+    });
 
     let address = await Address.findAll({
-      where:{
-      id : productDetail.dataValues.address_id
-      }
-    })
+      where: {
+        id: productDetail.dataValues.address_id,
+      },
+    });
 
     console.log(productDetail);
-    
-    res.send('done')
-    
+
+    res.send("done");
   } catch (error) {
-   res.send(error) 
+    res.send(error);
   }
-
-
 };
 
-
-export const updateProduct = async(req:Request , res:Response) =>{
+export const updateProduct = async (req: Request, res: Response) => {
   console.log(req.body);
-  
+
   try {
     let result = await Products.update(
-      {price : req.body.price , latestBid : req.body.price , name : req.body.name},
-      {where:{id:req.params.id}}
-    )
+      {
+        price: req.body?.price,
+        latestBid: req.body?.price,
+        name: req.body?.name,
+      },
+      { where: { id: req.params.id } }
+    );
     console.log(result);
 
-    res.send('Updated')
-    
+    res.send("Updated");
   } catch (error) {
-    res.send(error)
+    res.send(error);
   }
-}
+};
+
+export const productBidding = async (req: Request, res: Response) => {
+  console.log(req.body);
+
+  try {
+    // let [result] = await Products.findAll({where:{id:req.body.product_id}})
+    // let update = await Products.update(
+    //   {latestBid : result.dataValues.latestBid + req.body.bidPrice , bidder_id : req.body.user_id},
+    //   {where:{id:req.body.product_id}}
+    // )
+    // console.log(update);
+  } catch (error) {
+    console.log(error);
+  }
+};

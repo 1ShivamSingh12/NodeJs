@@ -4,9 +4,7 @@ const fs = require('fs')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const imagePath = path.join(
-      "/home/appinvent/Desktop/Projects/node js/olx_sequilize/electronic.jpg"
-    );
+    const imagePath = path.join("/home/appinvent/Desktop/Projects/node js/olx_sequilize/electronic.jpg");
     console.log(imagePath);
     const imageBuffer = fs.readFileSync(imagePath);
 

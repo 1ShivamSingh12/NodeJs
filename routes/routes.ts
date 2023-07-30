@@ -9,7 +9,7 @@ import {
   updateProfile,
 } from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
-import { addProduct, getCategories, profileDetails, updateProduct, uploadImage } from "../controller/productsController";
+import { addProduct, getCategories, productBidding, profileDetails, updateProduct, uploadImage } from "../controller/productsController";
 import multer from "multer";
 import { Multer } from "../middleware/multer";
 
@@ -255,8 +255,26 @@ export const routes = (app: Application) => {
 
 
 
-  app.post("/uploadImage/:id", verifyToken , Multer.single('file'), uploadImage)
+  app.post("/uploadImage/:id", verifyToken , Multer.array('file'), uploadImage)
 
+/**
+   * @openapi
+   * /getCategories:
+   *   get:
+   *     tags:
+   *       - Get Category
+   *     description: Fetch all the Categories.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
 
   app.get("/getCategories", getCategories)
 
@@ -280,30 +298,42 @@ export const routes = (app: Application) => {
    *         description: App is up and running
    */
 
-  app.get("/profileDtail/:id", verifyToken, profileDetails);
+  app.get("/profileDetail/:id", verifyToken, profileDetails);
 
 
   /**
-   * @openapi
-   * /updateProduct:
-   *   post:
-   *     tags:
-   *     - Update Product
-   *     description: Update Product.
-   *     requestBody:
-   *       description: User object that needs to be added to the system.
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             type: object
-   *     responses:
-   *       201:
-   *         description: Updated successful
-   *       400:
-   *         description: Bad request.
-   */
+ * @openapi
+ * /updateProduct:
+ *   post:
+ *     tags:
+ *       - Update Product
+ *     description: Update Product.
+ *     requestBody:
+ *       description: User object that needs to be added to the system.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           description: Access token for authentication.
+ *     responses:
+ *       201:
+ *         description: Updated successfully.
+ *       400:
+ *         description: Bad request.
+ */
+
 
   app.post("/updateProduct/:id", verifyToken, updateProduct);
+
+
+  app.post("/bid", verifyToken, productBidding);
+
 
 };
