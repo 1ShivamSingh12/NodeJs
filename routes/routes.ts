@@ -1,6 +1,7 @@
 import { Application } from "express";
 import {
   addAddress,
+  deleteProfile,
   forgetPassword,
   getProfile,
   logOut,
@@ -9,7 +10,7 @@ import {
   updateProfile,
 } from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
-import { addProduct, getCategories, productBidding, profileDetails, updateProduct, uploadImage } from "../controller/productsController";
+import { addProduct, getCategories, getProduct, productBidding, profileDetails, updateProduct, uploadImage } from "../controller/productsController";
 import multer from "multer";
 import { Multer } from "../middleware/multer";
 
@@ -201,6 +202,28 @@ export const routes = (app: Application) => {
 
   app.get("/getProfile", verifyToken, getProfile);
 
+
+  /**
+   * @openapi
+   * /deleteProfile:
+   *   delete:
+   *     tags:
+   *       - Delete User profile
+   *     description: Delete User profile
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
+
+  app.delete("/deleteProfile", verifyToken, deleteProfile);
+
   /**
    * @openapi
    * /logOut:
@@ -334,6 +357,29 @@ export const routes = (app: Application) => {
 
 
   app.post("/bid", verifyToken, productBidding);
+
+  
+   /**
+   * @openapi
+   * /products:
+   *   get:
+   *     tags:
+   *       - Get User Product
+   *     description: Get User Product
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *     responses:
+   *       200:
+   *         description: App is up and running
+   */
+
+
+   app.get("/products" , verifyToken , getProduct)
 
 
 };

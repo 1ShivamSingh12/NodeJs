@@ -44,7 +44,6 @@ export const uploadImage = async (req: Request, res: Response) => {
         const imagePath = path.join("uploads", <string>file?.filename);
         const imageBuffer = fs.readFileSync(imagePath);
         const blobFile = Buffer.from(imageBuffer);
-
         blobsFile.push(blobFile);
       }
 
@@ -134,16 +133,35 @@ export const updateProduct = async (req: Request, res: Response) => {
 };
 
 export const productBidding = async (req: Request, res: Response) => {
-  console.log(req.body);
-
   try {
-    // let [result] = await Products.findAll({where:{id:req.body.product_id}})
-    // let update = await Products.update(
-    //   {latestBid : result.dataValues.latestBid + req.body.bidPrice , bidder_id : req.body.user_id},
-    //   {where:{id:req.body.product_id}}
-    // )
-    // console.log(update);
+    const { product_id, bidPrice, user_id } = req.body;
+
+    await Products.increment("latestBid", {
+      by: bidPrice,
+      where: { id: product_id },
+    });
+
+    await Products.update(
+      { bidder_id: user_id },
+      { where: { id: product_id } }
+    );
+
+    res.send("Updated");
   } catch (error) {
     console.log(error);
   }
 };
+
+export const getProduct = async(req:Request , res:Response) =>{
+
+  let result = await Products.findAll(
+    {
+      where:{owner_id:req.body.user_id}
+    }
+  )
+
+  res.send(result)
+
+}
+
+

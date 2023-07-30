@@ -83,11 +83,10 @@ export const addAddress = async (req: Request, res: Response) => {
 
       console.log(result);
 
-      if(result){
-        res.status(200).send('Address inserted')
-      }else{
-        res.send('Not inserted')
-
+      if (result) {
+        res.status(200).send("Address inserted");
+      } else {
+        res.send("Not inserted");
       }
     }
   } catch (error) {
@@ -135,5 +134,31 @@ export const logOut = async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const deleteProfile = async (req: Request, res: Response) => {
+  try {
+    let user_del = await Users.destroy({
+      where: {
+        id: req.body.user_id,
+      },
+    });
+
+    let session_Del = await Sessions.destroy({
+      where: {
+        user_id: req.body.user_id,
+      },
+    });
+
+    let redis_Del = await client.del(`${req.body.user_id}_session`);
+
+    if (user_del && session_Del && redis_Del) {
+      res.status(200).send("User deleted Successfully.");
+    } else {
+      res.status(500).send("Error");
+    }
+  } catch (error) {
+    res.send(error);
   }
 };

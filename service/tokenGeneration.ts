@@ -17,7 +17,7 @@ export const generateToken = async (req: Request, res: Response) => {
 
   let session_payload = {
     user_id: req.body.id,
-    sessionId: "1234ytfy",
+    sessionId: "5311j2jh",
     deviceType: "Goggle Chrome",
   };
 
