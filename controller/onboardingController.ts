@@ -34,21 +34,28 @@ export const loginUser = async (req: Request, res: Response) => {
   try {
     const error = loginSchema.validateAsync(req.body);
 
+    console.log(req.body);
+    
     const { email, password } = req.body;
 
     if (email && password) {
+      
       const [user, a] = await Users.findAll({
         where: {
           email: email,
         },
       });
-      console.log(user, "lllllllllllllllllllll");
 
-      if (user) {
+      const matchPass = await bcrypt.compare(req.body.password , user.dataValues.password)
+  
+      if (matchPass) {
         req.body.id = user.dataValues.id;
-
         generateToken(req, res);
+      }else{
+        res.send("Password is incorrect")
       }
+    }else{
+      return "Please provide both Email and Password"
     }
   } catch (error) {
     console.log(error);
@@ -64,7 +71,7 @@ export const updateProfile = async (req: Request, res: Response) => {
         res.send(error);
       } else {
         const updateData = await Users.update(
-          { first_name: req.body.first_name },
+         req.body,
           { where: { id: req.body.user_id } }
         );
         res.send("Updated");
@@ -107,7 +114,6 @@ export const addAddress = async (req: Request, res: Response) => {
 };
 
 export const forgetPassword = async (req: Request, res: Response) => {
-  console.log(req.body);
 
   const error = forgetPasswordSchema.validateAsync(req.body);
   try {
@@ -131,11 +137,7 @@ export const forgetPassword = async (req: Request, res: Response) => {
 };
 
 export const getProfile = async (req: Request, res: Response) => {
-  let profile = await Users.findAll({
-    where: {
-      id: req.body.user_id,
-    },
-  });
+  let profile = await Users.findByPk(req.body.user_id);
 
   res.send(profile);
 };

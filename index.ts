@@ -2,7 +2,8 @@ import express, { Application } from "express";
 import * as dotenv from "dotenv";
 import {client, connection } from "./config/db";
 import { swaggerDoc } from "./swaggerConnection/swagger";
-import { routes } from "./routes/routes";
+import { onBoardingRoutes } from "./routes/onboardingRoutes";
+import { productRoutes } from "./routes/productRoutes";
 
 
 dotenv.config();
@@ -13,7 +14,9 @@ const app: Application = express();
 
 app.use(express.json());
 
-routes(app);
+onBoardingRoutes(app)
+productRoutes(app)
+
 
 export let imageBlob:any;
 app.listen(port, async() => {

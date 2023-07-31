@@ -1,26 +1,23 @@
 import { Application } from "express";
 import {
+  signUp,
   addAddress,
-  deleteProfile,
+  loginUser,
+  updateProfile,
   forgetPassword,
   getProfile,
+  deleteProfile,
   logOut,
-  loginUser,
-  signUp,
-  updateProfile,
 } from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
-import { addProduct, getCategories, getProduct, productBidding, profileDetails, updateProduct, uploadImage } from "../controller/productsController";
-import multer from "multer";
-import { Multer } from "../middleware/multer";
 
-export const routes = (app: Application) => {
+export const onBoardingRoutes = (app: Application) => {
   /**
    * @openapi
    * /signUp:
    *  post:
    *    tags:
-   *    - Register User
+   *    - User
    *    description: Register a new user.
    *    requestBody:
    *      required: true
@@ -68,7 +65,7 @@ export const routes = (app: Application) => {
    * /addAddress:
    *  post:
    *    tags:
-   *    - Adding address of user
+   *    - User
    *    description: Adding address of user.
    *    requestBody:
    *      required: true
@@ -100,14 +97,14 @@ export const routes = (app: Application) => {
    *        description: Internal Server Error - Failed to register user.
    */
 
-  app.post("/addAddress",verifyToken, addAddress);
+  app.post("/addAddress", verifyToken, addAddress);
 
   /**
    * @openapi
    * /login:
    *   post:
    *     tags:
-   *     - Login User
+   *     - User
    *     description: Login User.
    *     requestBody:
    *       description: User object that needs to be added to the system.
@@ -135,7 +132,7 @@ export const routes = (app: Application) => {
    * /updateProfile:
    *   post:
    *     tags:
-   *     - Update user Profile
+   *     - User
    *     description: Update user Profile.
    *     requestBody:
    *       description: User object that needs to be added to the system.
@@ -158,7 +155,7 @@ export const routes = (app: Application) => {
    * /forgetPassword:
    *   post:
    *     tags:
-   *     - Reset Password
+   *     - User
    *     description: Reset Password.
    *     requestBody:
    *       description: User object that needs to be added to the system.
@@ -186,7 +183,7 @@ export const routes = (app: Application) => {
    * /getUsers:
    *   get:
    *     tags:
-   *       - Get user
+   *       - User
    *     description: Fetch all the users registered.
    *     parameters:
    *       - in: header
@@ -208,7 +205,7 @@ export const routes = (app: Application) => {
    * /deleteProfile:
    *   delete:
    *     tags:
-   *       - Delete User profile
+   *       - User
    *     description: Delete User profile
    *     parameters:
    *       - in: header
@@ -229,7 +226,7 @@ export const routes = (app: Application) => {
    * /logOut:
    *   post:
    *     tags:
-   *       - Log out user
+   *       - User
    *     description: Log out user.
    *     parameters:
    *       - in: header
@@ -245,141 +242,7 @@ export const routes = (app: Application) => {
 
   app.post("/logOut", verifyToken, logOut);
 
-  /**
-   * @openapi
-   * /addProduct:
-   *  post:
-   *    tags:
-   *    - Add product
-   *    description: Add product.
-   *    requestBody:
-   *      required: true
-   *      content:
-   *        application/json:
-   *          schema:
-   *            type: object
-   *            properties:
-   *              name:
-   *                type: string
-   *              description:
-   *                type: string
-   *              price:
-   *                type: bigint
-   *    responses:
-   *      200:
-   *        description: User registration successful.
-   *      400:
-   *        description: Bad Request - Invalid data provided.
-   *      500:
-   *        description: Internal Server Error - Failed to register user.
-   */
-
-  app.post("/addProduct", verifyToken, addProduct);
-
-
-
-  app.post("/uploadImage/:id", verifyToken , Multer.array('file'), uploadImage)
-
-/**
-   * @openapi
-   * /getCategories:
-   *   get:
-   *     tags:
-   *       - Get Category
-   *     description: Fetch all the Categories.
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         schema:
-   *           type: string
-   *         required: true
-   *         description: Bearer token for authentication
-   *     responses:
-   *       200:
-   *         description: App is up and running
-   */
-
-  app.get("/getCategories", getCategories)
-
-
-  /**
-   * @openapi
-   * /profileDtail:
-   *   get:
-   *     tags:
-   *       - Get profile Detail
-   *     description: Get profile detail
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         schema:
-   *           type: string
-   *         required: true
-   *         description: Bearer token for authentication
-   *     responses:
-   *       200:
-   *         description: App is up and running
-   */
-
-  app.get("/profileDetail/:id", verifyToken, profileDetails);
-
-
-  /**
- * @openapi
- * /updateProduct:
- *   post:
- *     tags:
- *       - Update Product
- *     description: Update Product.
- *     requestBody:
- *       description: User object that needs to be added to the system.
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *           description: Access token for authentication.
- *     responses:
- *       201:
- *         description: Updated successfully.
- *       400:
- *         description: Bad request.
- */
-
-
-  app.post("/updateProduct/:id", verifyToken, updateProduct);
-
-
-  app.post("/bid", verifyToken, productBidding);
-
   
-   /**
-   * @openapi
-   * /products:
-   *   get:
-   *     tags:
-   *       - Get User Product
-   *     description: Get User Product
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         schema:
-   *           type: string
-   *         required: true
-   *         description: Bearer token for authentication
-   *     responses:
-   *       200:
-   *         description: App is up and running
-   */
-
-
-   app.get("/products" , verifyToken , getProduct)
 
 
 };

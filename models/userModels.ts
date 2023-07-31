@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/db";
+import { Products } from "./productModel";
 
 enum StatusEnum {
   Active = "active",
@@ -67,6 +68,8 @@ Users.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    
+    
   },
 
   {
@@ -74,3 +77,11 @@ Users.init(
     modelName: "Users",
   }
 );
+
+Users.hasMany(Products, { foreignKey: "owner_id", as: "owner" });
+Products.belongsTo(Users, { foreignKey: "owner_id", as: "owner" });
+
+Users.hasMany(Products, { foreignKey: "bidder_id", as: "bidderProducts" });
+Products.belongsTo(Users, { foreignKey: "bidder_id", as: "bidder" });
+
+

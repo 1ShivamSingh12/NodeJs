@@ -1,5 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/db";
+import { Users } from "./userModels";
+import { Category } from "./categoryModel";
 
 
 export class Products extends Model {
@@ -69,3 +71,4 @@ Products.init(
     modelName: "Products",
   }
 );
+

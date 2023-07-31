@@ -6,11 +6,10 @@ import path from "path";
 import { Images } from "../models/imagesModel";
 import { Users } from "../models/userModels";
 import { Address } from "../models/addressModel";
+import { Op, where } from "sequelize";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
-
-    
     let result = await Category.findOne({
       where: {
         category_name: req.body.category,
@@ -82,27 +81,23 @@ export const getCategories = async (req: Request, res: Response) => {
 
 export const profileDetails = async (req: Request, res: Response) => {
   try {
-    let [productDetail] = await Products.findAll({
-      where: {
-        id: req.params.id,
-      },
-    });
+    let productDetail = await Products.findByPk(req.params.id);
 
     let user = await Users.findAll({
       where: {
-        id: productDetail.dataValues.owner_id,
+        id: productDetail?.dataValues.owner_id,
       },
     });
 
     let category = await Category.findAll({
       where: {
-        id: productDetail.dataValues.category_id,
+        id: productDetail?.dataValues.category_id,
       },
     });
 
     let address = await Address.findAll({
       where: {
-        id: productDetail.dataValues.address_id,
+        id: productDetail?.dataValues.address_id,
       },
     });
 
@@ -154,16 +149,24 @@ export const productBidding = async (req: Request, res: Response) => {
   }
 };
 
-export const getProduct = async(req:Request , res:Response) =>{
+export const getProduct = async (req: Request, res: Response) => {
 
-  let result = await Products.findAll(
-    {
-      where:{owner_id:req.body.user_id}
-    }
-  )
+  let result = await Users.findAll({
+    attributes: ["first_Name", "last_Name", "email"],
+    include: [
+      {
+        model: Products,
+        attributes: ["name", "bidder_id", "price", "latestBid"],
+      },
+      {
+        model: Users,
+        attributes: ["first_Name"],
+      },
+    ],
+    where: { id: req.body.user_id },
+  });
 
-  res.send(result)
+  res.send(result);
+};
 
-}
-
-
+export const getCategoryProduct = (req: Request, res: Response) => {};

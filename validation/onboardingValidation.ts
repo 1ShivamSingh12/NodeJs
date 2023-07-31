@@ -22,7 +22,6 @@ export const updateProfileSchema = Joi.object({
   first_Name: Joi.string().trim().min(3).max(50).optional(),
   last_Name: Joi.string().trim().min(3).max(50).optional(),
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] }}).optional(),
-  password: Joi.string().token().min(5).max(30).optional(),
   profilePic: Joi.binary().optional(),
   phone_number: Joi.string().max(10).optional(),
   gender: Joi.string().valid("Male", "Female", "other").optional(),
