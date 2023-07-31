@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import {
+  addressSchema,
+  forgetPasswordSchema,
   loginSchema,
   registerSchema,
+  updateProfileSchema,
 } from "../validation/onboardingValidation";
 import { Address } from "../models/addressModel";
 import { Users } from "../models/userModels";
@@ -55,14 +58,19 @@ export const loginUser = async (req: Request, res: Response) => {
 export const updateProfile = async (req: Request, res: Response) => {
   try {
     if (req.body) {
-      const updateData = await Users.update(
-        { first_name: req.body.first_name },
-        { where: { id: req.body.user_id } }
-      );
+      const error = await updateProfileSchema.validateAsync(req.body);
 
-      res.send("Updated");
+      if (!error) {
+        res.send(error);
+      } else {
+        const updateData = await Users.update(
+          { first_name: req.body.first_name },
+          { where: { id: req.body.user_id } }
+        );
+        res.send("Updated");
+      }
     } else {
-      res.send("Invalid");
+      throw new Error("No data provided");
     }
   } catch (error) {
     res.send(error);
@@ -71,7 +79,9 @@ export const updateProfile = async (req: Request, res: Response) => {
 
 export const addAddress = async (req: Request, res: Response) => {
   try {
-    if (req.body) {
+    const error = addressSchema.validateAsync(req.body);
+
+    if (req.body && !error) {
       console.log(req.body);
       let payload = {
         ...req.body,
@@ -88,6 +98,8 @@ export const addAddress = async (req: Request, res: Response) => {
       } else {
         res.send("Not inserted");
       }
+    } else {
+      res.send(error);
     }
   } catch (error) {
     console.log(error);
@@ -97,21 +109,25 @@ export const addAddress = async (req: Request, res: Response) => {
 export const forgetPassword = async (req: Request, res: Response) => {
   console.log(req.body);
 
+  const error = forgetPasswordSchema.validateAsync(req.body);
   try {
-    if (req.body) {
+    if (req.body && !error) {
       if (req.body.newPassword == req.body.confirmPassword) {
         let securePass = await bcrypt.hash(req.body.newPassword, 10);
         const updateData = await Users.update(
           { password: securePass },
           { where: { id: req.body.user_id } }
         );
-
         res.send("Changed");
       } else {
         res.send("Password do not match");
       }
+    } else {
+      res.send(error);
     }
-  } catch (error) {}
+  } catch (error) {
+    res.send(error)
+  }
 };
 
 export const getProfile = async (req: Request, res: Response) => {

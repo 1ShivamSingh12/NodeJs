@@ -9,6 +9,8 @@ import { Address } from "../models/addressModel";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
+
+    
     let result = await Category.findOne({
       where: {
         category_name: req.body.category,

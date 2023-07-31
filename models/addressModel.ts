@@ -56,13 +56,17 @@ Address.init(
       allowNull: false,
     },
     address_type: {
-        type: DataTypes.ENUM(address_type.HOME , address_type.WORK , address_type.DEFAULT),
-        allowNull: false,
-      },
-      zip_code: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
+      type: DataTypes.ENUM(
+        address_type.HOME,
+        address_type.WORK,
+        address_type.DEFAULT
+      ),
+      allowNull: false,
+    },
+    zip_code: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
   },
 
   {

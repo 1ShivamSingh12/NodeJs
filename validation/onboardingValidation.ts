@@ -16,3 +16,31 @@ export const loginSchema = Joi.object({
     .required(),
   password: Joi.string().token().min(5).max(30).required(),
 });
+
+
+export const updateProfileSchema = Joi.object({
+  first_Name: Joi.string().trim().min(3).max(50).optional(),
+  last_Name: Joi.string().trim().min(3).max(50).optional(),
+  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] }}).optional(),
+  password: Joi.string().token().min(5).max(30).optional(),
+  profilePic: Joi.binary().optional(),
+  phone_number: Joi.string().max(10).optional(),
+  gender: Joi.string().valid("Male", "Female", "other").optional(),
+});
+
+
+export const addressSchema = Joi.object({
+  street1: Joi.string().alphanum().trim().min(3).max(50).required(),
+  street2: Joi.string().alphanum().trim().min(3).max(50).required(),
+  landmark: Joi.string().alphanum().trim().min(3).max(50).required(),
+  city: Joi.string().trim().min(3).max(50).required(),
+  state: Joi.binary().required(),
+  address_type: Joi.string().max(10).required(),
+  zip_code: Joi.number().max(6).required(),
+});
+
+
+export const forgetPasswordSchema = Joi.object({
+  newPassword: Joi.string().token().min(5).max(30).required(),
+  confirmPassword: Joi.string().token().min(5).max(30).required(),
+});
