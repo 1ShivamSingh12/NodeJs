@@ -10,6 +10,11 @@ import {
   logOut,
 } from "../controller/onboardingController";
 import { verifyToken } from "../middleware/validateToken";
+import { addressSchema, forgetPasswordSchema, loginSchema, registerSchema, updateProfileSchema } from "../validation/onboardingValidation";
+import { createValidator } from "express-joi-validation";
+
+
+const validator = createValidator()
 
 export const onBoardingRoutes = (app: Application) => {
   /**
@@ -58,7 +63,7 @@ export const onBoardingRoutes = (app: Application) => {
    *        description: Internal Server Error - Failed to register user.
    */
 
-  app.post("/signUp", signUp);
+  app.post("/signUp",  validator.query(registerSchema) , signUp);
 
   /**
    * @openapi
@@ -97,7 +102,7 @@ export const onBoardingRoutes = (app: Application) => {
    *        description: Internal Server Error - Failed to register user.
    */
 
-  app.post("/addAddress", verifyToken, addAddress);
+  app.post("/addAddress", validator.query(addressSchema)  , verifyToken, addAddress);
 
   /**
    * @openapi
@@ -125,7 +130,7 @@ export const onBoardingRoutes = (app: Application) => {
    *         description: Bad request. Invalid login credentials.
    */
 
-  app.post("/login", loginUser);
+  app.post("/login",validator.query(loginSchema) ,  loginUser);
 
   /**
    * @openapi
@@ -148,7 +153,7 @@ export const onBoardingRoutes = (app: Application) => {
    *         description: Bad request.
    */
 
-  app.post("/updateProfile", verifyToken, updateProfile);
+  app.post("/updateProfile", validator.query(updateProfileSchema) ,verifyToken, updateProfile);
 
   /**
    * @openapi
@@ -176,7 +181,7 @@ export const onBoardingRoutes = (app: Application) => {
    *         description: Bad request.
    */
 
-  app.post("/forgetPassword", verifyToken, forgetPassword);
+  app.post("/forgetPassword", validator.query(forgetPasswordSchema) , verifyToken, forgetPassword);
 
   /**
    * @openapi

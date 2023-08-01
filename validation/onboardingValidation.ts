@@ -31,10 +31,10 @@ export const updateProfileSchema = Joi.object({
 export const addressSchema = Joi.object({
   street1: Joi.string().alphanum().trim().min(3).max(50).required(),
   street2: Joi.string().alphanum().trim().min(3).max(50).required(),
-  landmark: Joi.string().alphanum().trim().min(3).max(50).required(),
-  city: Joi.string().trim().min(3).max(50).required(),
-  state: Joi.binary().required(),
-  address_type: Joi.string().max(10).required(),
+  landmark: Joi.string().regex(/^[A-Za-z]+$/).trim().min(3).max(50).required(),
+  city: Joi.string().regex(/^[A-Za-z]+$/).trim().min(3).max(50).required(),
+  state: Joi.string().regex(/^[A-Za-z]+$/).trim().min(3).max(50).required(),
+  address_type: Joi.string().valid("home","work","default").required(),
   zip_code: Joi.number().max(6).required(),
 });
 
@@ -42,4 +42,12 @@ export const addressSchema = Joi.object({
 export const forgetPasswordSchema = Joi.object({
   newPassword: Joi.string().token().min(5).max(30).required(),
   confirmPassword: Joi.string().token().min(5).max(30).required(),
+});
+
+
+
+export const addProductSchema = Joi.object({
+  name: Joi.string().alphanum().max(30).required(),
+  description: Joi.string().alphanum().min(5).max(100).required(),
+  price:Joi.number().required().max(10)
 });

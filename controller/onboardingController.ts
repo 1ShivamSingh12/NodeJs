@@ -1,12 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import {
-  addressSchema,
-  forgetPasswordSchema,
-  loginSchema,
-  registerSchema,
-  updateProfileSchema,
-} from "../validation/onboardingValidation";
+import {addressSchema,forgetPasswordSchema,loginSchema,registerSchema,updateProfileSchema } from "../validation/onboardingValidation";
 import { Address } from "../models/addressModel";
 import { Users } from "../models/userModels";
 import { generateToken } from "../service/tokenGeneration";
@@ -15,7 +9,6 @@ import { client } from "../config/db";
 
 export const signUp = async (req: Request, res: Response) => {
   try {
-    const { error } = await registerSchema.validateAsync(req.body);
     let securePass = await bcrypt.hash(req.body.password, 10);
     req.body.password = securePass;
     let payload = {
@@ -32,7 +25,6 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const error = loginSchema.validateAsync(req.body);
 
     console.log(req.body);
     
