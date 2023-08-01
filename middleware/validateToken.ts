@@ -2,7 +2,6 @@ import { Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import { client } from "../config/db";
-import { where } from "sequelize";
 import { Sessions } from "../models/SessionModel";
 
 dotenv.config();
@@ -19,7 +18,7 @@ export const verifyToken = (req: Request, res: Response, next: any) => {
         
         req.body.user_id = decodeToken;
 
-        let findSession:any = (await client.get(`${decodeToken}_session`)) ||  (await Sessions.findAll({ where: {userId : decodeToken}}));
+        let findSession:any = (await client.get(`${decodeToken}_session`)) ||  (await Sessions.findOne({ where: {userId : decodeToken}}));
         
         console.log(findSession, "sdfwefwe");
         

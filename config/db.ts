@@ -19,5 +19,5 @@ export const connection = async () => {
 
 
 export const client = createClient();
-
 client.on("error", (err:Error) => console.log("Redis Client Error", err));
+

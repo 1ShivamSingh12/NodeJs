@@ -6,7 +6,6 @@ import path from "path";
 import { Images } from "../models/imagesModel";
 import { Users } from "../models/userModels";
 import { Address } from "../models/addressModel";
-import { Op, where } from "sequelize";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
@@ -52,7 +51,7 @@ export const uploadImage = async (req: Request, res: Response) => {
         let payload = {
           product_id: req.params.id,
           images: file,
-        };
+        }
         // console.log(payload);
         let result = await Images.create(payload);
         if (result) {

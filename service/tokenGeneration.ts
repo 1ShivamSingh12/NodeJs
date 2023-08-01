@@ -31,9 +31,7 @@ export const generateToken = async (req: Request, res: Response) => {
       let data: Sessions = await Sessions.create(session_payload);
       console.log(data);
 
-      let result = await client.set(
-        `${req.body.id}_session`,
-        JSON.stringify(session_payload)
+      let result = await client.set(`${req.body.id}_session`,JSON.stringify(session_payload)
       );
 
       let result1 = await client.get(`${req.body.id}_session`);
