@@ -72,6 +72,13 @@ export const onBoardingRoutes = (app: Application) => {
    *    tags:
    *    - User
    *    description: Adding address of user.
+   *    parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
    *    requestBody:
    *      required: true
    *      content:
@@ -139,6 +146,13 @@ export const onBoardingRoutes = (app: Application) => {
    *     tags:
    *     - User
    *     description: Update user Profile.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true
@@ -162,6 +176,14 @@ export const onBoardingRoutes = (app: Application) => {
    *     tags:
    *     - User
    *     description: Reset Password.
+   *     parameters:
+   *       - in: header
+   *         name: Authorization
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: Bearer token for authentication
+   *  
    *     requestBody:
    *       description: User object that needs to be added to the system.
    *       required: true

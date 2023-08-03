@@ -60,6 +60,13 @@ const onBoardingRoutes = (app) => {
      *    tags:
      *    - User
      *    description: Adding address of user.
+     *    parameters:
+     *       - in: header
+     *         name: Authorization
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: Bearer token for authentication
      *    requestBody:
      *      required: true
      *      content:

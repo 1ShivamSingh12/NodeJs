@@ -49,7 +49,7 @@ const verifyToken = (req, res, next) => {
         jsonwebtoken_1.default.verify(tokenToVerify, key, (err, decodeToken) => __awaiter(void 0, void 0, void 0, function* () {
             if (!err) {
                 req.body.user_id = decodeToken;
-                let findSession = (yield db_1.client.get(`${decodeToken}_session`)) || (yield SessionModel_1.Sessions.findAll({ where: { userId: decodeToken } }));
+                let findSession = (yield db_1.client.get(`${decodeToken}_session`)) || (yield SessionModel_1.Sessions.findOne({ where: { userId: decodeToken } }));
                 console.log(findSession, "sdfwefwe");
                 if (findSession.length != 0) {
                     next();

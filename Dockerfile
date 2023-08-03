@@ -4,13 +4,12 @@ WORKDIR /advertisement_Management
 
 COPY package*.json ./
 
+RUN apk add --update redis
+
 RUN npm i
 
 COPY . .
 
-RUN apk add --update redis
-
-ENV PORT = 7000
 ENV SECRETKEY = "dfvrevervr"
 
 
