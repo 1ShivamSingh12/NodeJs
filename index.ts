@@ -6,6 +6,11 @@ import bodyParser from "koa-bodyparser";
 import koaBody from "koa-body";
 import Router from "koa-router";
 import { subscribe } from "./rabbit/subscriber";
+import { swaggerDocs } from "./connection/swagger";
+import { SwaggerOptions, koaSwagger } from "koa2-swagger-ui";
+// import { App } from "./bootstarp/bootstrap";
+
+
 // import { swaggerDoc } from "./connection/swagger";
 // import { ui, validate } from "swagger2-koa";
 
@@ -14,13 +19,9 @@ import { subscribe } from "./rabbit/subscriber";
 //   try {
 //     new App();
 //   } catch (error) {
-//     console.log(error);
+//     console.log(erroverifyTokenr);
 //   }
 // })();
-
-
-
-
 
 
 const app = new Koa();
@@ -36,6 +37,14 @@ app.use(router.allowedMethods());
 
 app.use(koaBody({ multipart: true }));
 
+app.use(
+  koaSwagger({
+    routePrefix: '/swagger',
+    swaggerOptions: {
+      spec: swaggerDocs as SwaggerOptions['spec'],
+    },
+  })
+);
 
 
 app.listen(port, async () => {

@@ -22,3 +22,4 @@ class playerRoute {
 }
 
 export const playerRoutes = new playerRoute();
+

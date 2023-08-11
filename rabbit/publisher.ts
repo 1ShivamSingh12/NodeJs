@@ -11,7 +11,12 @@ export class publisher {
 
       const queueName = "Score_Summary";
 
-      let Summary = `${data.Bowler} to ${data.Batsman} ${data.Runs} Run`
+      let Summary = {
+
+        title: `${data.Bowler} to ${data.Batsman} ${data.Runs} Run`,
+        match_id: data.match_id
+
+      } 
 
       await channel.assertQueue(queueName, { durable: false });
       channel.sendToQueue(queueName, Buffer.from(JSON.stringify(Summary)));
@@ -22,7 +27,7 @@ export class publisher {
         connection.close();
         process.exit(0);
       }, 500);
-      
+
     } catch (error) {
       console.error("Error occurred:", error);
     }

@@ -25,9 +25,11 @@ export class teams {
 
   static teamDetail = async (ctx: Context) => {
     try {
-      let requestBody: any = ctx.request.body;
 
-      let teamId = new mongoose.Types.ObjectId(requestBody.teamId);
+      let requestBody: any = ctx.params.id;
+      console.log(ctx.request.body);
+
+      let teamId = new mongoose.Types.ObjectId(requestBody);
 
       let result = await teamData.aggregate([
         {
@@ -41,24 +43,24 @@ export class teams {
             as: "players",
           },
         },
-        // {
-        //   $project: {
-        //     _id : teamId,
-        //     players: {
-        //       $map: {
-        //         input: "$players",
-        //         as: "player",
-        //         in: {
-        //           Name: "$$player.Name",
-        //           Role: "$$player.Role",
-        //         },
-        //       },
-        //     },
-        //   },
-        // },
+        {
+          $project: {
+            _id : teamId,
+            players: {
+              $map: {
+                input: "$players",
+                as: "player",
+                in: {
+                  Name: "$$player.Name",
+                  Role: "$$player.Role",
+                },
+              },
+            },
+          },
+        },
       ]);
-
-      ctx.response.body = result;
+      
+      ctx.response.body = JSON.stringify(result, null, 2);
     } catch (error) {
       ctx.response.body = error;
     }

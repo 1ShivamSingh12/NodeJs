@@ -29,36 +29,38 @@ export class match {
     let requestBody: any = ctx.request.body;
     requestBody["params"] = ctx.params.id;
 
-    // let teamBatting = await matchData.findById(ctx.params.id, {
-    //   currentBatting: 1,
-    //   _id: 0,
-    // });
+    let teamBatting = await matchData.findById(ctx.params.id, {
+      currentBatting: 1,
+      _id: 0,
+    });
 
-    // let teamToUpdate = await matchData.find({
-    //   "teamA.team_id": teamBatting.currentBatting,
-    // });
+    let teamToUpdate = await matchData.find({
+      "teamA.team_id": teamBatting.currentBatting,
+    });
 
-    // if (teamToUpdate.length == 1) {
-    //   if (requestBody.Runs) {
-    //     let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
-    //       $inc: {
-    //         "teamA.Runs": requestBody.Runs || 0,
-    //         "teamA.balls_played": requestBody?.ball || 0,
-    //         "teamA.wickets": requestBody.wicket || 0,
-    //       },
-    //     });
-    //   }
-    // }
+    if (teamToUpdate.length == 1) {
+      if (requestBody.ball) {
+        let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
+          $inc: {
+            "teamA.Runs": requestBody.Runs || 0,
+            "teamA.balls_played": requestBody?.ball || 0,
+            "teamA.wickets": requestBody.wicket || 0,
+          },
+        });
+      }
+    }
 
-    // let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
-    //   $inc: {
-    //     "teamB.balls": requestBody.ball || 0,
-    //   },
-    // });
+    let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
+      $inc: {
+        "teamB.balls": requestBody.ball || 0,
+      },
+    });
 
     let data = await matchUpdates.performance(requestBody);
 
     if (data == "Success") {
+      console.log("success");
+
       let batterName = await playerData.findById(requestBody.batterId, {
         Name: 1,
       });
@@ -70,10 +72,14 @@ export class match {
         Batsman: batterName.Name,
         Bowler: bowlerName.Name,
         Runs: requestBody.Runs,
+        match_id: ctx.params.id
       };
 
       let publishedData = publisher.matchSummary(payload);
-
     }
+  };
+
+  static wicketUpdate = async (ctx: Context) => {
+    console.log(ctx.request.body);
   };
 }

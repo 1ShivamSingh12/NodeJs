@@ -20,10 +20,10 @@ const router = new Router();
 
 /**
  * @openapi
- * /signup:
+ * /signUp:
  *   post:
  *     tags:
- *     - User
+ *     - Admin
  *     description: Register User.
  *     requestBody:
  *       description: User object that needs to be added to the system.
@@ -50,15 +50,137 @@ const router = new Router();
 
 router.post("/signUp", registerValidator, onboarding.signUp);
 
+/**
+ * @openapi
+ * /login:
+ *   post:
+ *     tags:
+ *     - Admin
+ *     description: Login User.
+ *     requestBody:
+ *       description: User object that needs to be added to the system.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Login successful
+ *       400:
+ *         description: Bad request. Invalid.
+ */
+
 router.post("/login", loginSchema, onboarding.login);
 
-router.post("/team", verifyToken, teams.teamInsertion);
+/**
+ * @openapi
+ * /createTeam:
+ *   post:
+ *     tags:
+ *     - Team
+ *     description: Create Team.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Bearer token for authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: SignUp successful
+ *       400:
+ *         description: Bad request. Invalid.
+ */
 
+router.post("/createTeam", verifyToken, teams.teamInsertion);
 
-router.get("/getTeam", teams.teamDetail);
+/**
+ * @openapi
+ * /getTeam/:id:
+ *   get:
+ *     tags:
+ *     - Team
+ *     description: Create Team.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the team.
+ *       - name: authorization
+ *         in: header
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: token for authentication
+ *     responses:
+ *       201:
+ *         description: SignUp successful
+ *       400:
+ *         description: Bad request. Invalid.
+ */
 
-router.post("/createMatch", match.createMatch);
+router.get("/getTeam/:id", verifyToken, teams.teamDetail);
+
+/**
+ * @openapi
+ * /createMatch:
+ *   post:
+ *     tags:
+ *     - Match
+ *     description: Create Team.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Bearer token for authentication
+ *     responses:
+ *       201:
+ *         description: SignUp successful
+ *       400:
+ *         description: Bad request. Invalid.
+ */
+
+router.post("/createMatch", verifyToken, match.createMatch);
+
+/**
+ * @openapi
+ * /matchUpdate/:id:
+ *   post:
+ *     tags:
+ *     - Match
+ *     description: Update the Match.
+
+ *     responses:
+ *       201:
+ *         description: SignUp successful
+ *       400:
+ *         description: Bad request. Invalid.
+ */
 
 router.post("/matchUpdate/:id", match.matchUpdate);
+
+router.post("/wicket/:id", match.wicketUpdate);
 
 export default router;

@@ -13,9 +13,12 @@ export class App {
 
   constructor() {
     this.startApplication();
+    console.log('construictor');
+    
   }
 
   private startApplication() {
+    
     this.app = new Koa();
     this.globalMiddlewares();
     this.loadRoutes();
@@ -23,12 +26,15 @@ export class App {
   }
 
   private globalMiddlewares() {
+    
     dotenv.config();
     this.app.use(bodyParser());
   }
 
   private loadRoutes() {
+    
     // this.app.use(Routes.loadAllRoutes());
+    this.app.use(router.routes())
     this.app.use(router.allowedMethods());
     this.app.use(koaBody({ multipart: true }));
   }

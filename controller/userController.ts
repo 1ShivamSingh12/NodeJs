@@ -34,34 +34,30 @@ export class onboarding {
 
   static login = async (ctx: Context) => {
     try {
+      console.log("ll");
 
-        console.log('ll');
-        
-    //   let requestBody = ctx.request.body;
+      let requestBody = ctx.request.body;
 
       const { email, password }: any = ctx.request.body;
 
-    //   if (email && password) {
-    //     const user = await userData.findOne({ email: email });
+      if (email && password) {
+        const user = await userData.findOne({ email: email });
 
-    //     if(user?.role == 'admin'){
-            
-    //         const matchPass = await bcrypt.compare(
-    //           password,
-    //           <string>user?.password
-    //         );
-    
-    //         if (matchPass) {
-    //           generateToken(user?.id, ctx);
-    //         } else {
-    //           ctx.response.body = "Password is incorrect";
-    //         }
-    //       }
-    //     }else{
-    //         return ctx.throw(401,"Authentication Failed")
-    //     }
+        if (user?.role == "admin") {
+          const matchPass = await bcrypt.compare(
+            password,
+            <string>user?.password
+          );
 
-    return ctx.body = {};
+          if (matchPass) {
+            generateToken(user?.id, ctx);
+          } else {
+            ctx.response.body = "Password is incorrect";
+          }
+        }
+      } else {
+        return ctx.throw(401, "Authentication Failed");
+      }
 
     } catch (error) {
       console.log(error);
