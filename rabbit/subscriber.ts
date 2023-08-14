@@ -33,7 +33,7 @@ export const subscribe = async () => {
 
           console.log(balls.teamB.balls, "kfkwefkkfw");
 
-          if (summaryData.length >= 1) {
+          if (summaryData.length > 0 ) {
             await match_Summary.insertMany([
               {
                 match_id: new mongoose.Types.ObjectId(data.match_id),
@@ -43,17 +43,7 @@ export const subscribe = async () => {
                 },
               },
             ]);
-          } else {
-            await match_Summary.insertMany([
-              {
-                match_id: new mongoose.Types.ObjectId(data.match_id),
-                Commentary: {
-                  Ball: balls.teamB.balls,
-                  description: data.title,
-                },
-              },
-            ]);
-          }
+          } 
         }
       },
       { noAck: true }
