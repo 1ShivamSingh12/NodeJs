@@ -1,7 +1,5 @@
 import { Context } from "koa";
 import mongoose from "mongoose";
-import fs from "fs";
-import path from "path";
 import { fileName } from "../service/multer";
 import { playerData } from "../models/playerModel";
 

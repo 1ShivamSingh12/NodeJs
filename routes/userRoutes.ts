@@ -87,11 +87,11 @@ router.post("/login", loginSchema, onboarding.login);
  *     description: Create Team.
  *     parameters:
  *       - in: header
- *         name: Authorization
+ *         name: authorization
  *         schema:
  *           type: string
  *         required: true
- *         description: Bearer token for authentication
+ *         description: Token for authentication
  *     requestBody:
  *       required: true
  *       content:
@@ -114,11 +114,11 @@ router.post("/createTeam", verifyToken, teams.teamInsertion);
 
 /**
  * @openapi
- * /getTeam/:id:
+ * /getTeam/{id}:
  *   get:
  *     tags:
  *     - Team
- *     description: Create Team.
+ *     description: Get Team.
  *     parameters:
  *       - in: path
  *         name: id
@@ -126,20 +126,14 @@ router.post("/createTeam", verifyToken, teams.teamInsertion);
  *           type: string
  *         required: true
  *         description: The ID of the team.
- *       - name: authorization
- *         in: header
- *         schema:
- *           type: string
- *         required: true
- *         description: token for authentication
  *     responses:
  *       201:
- *         description: SignUp successful
+ *         description: successful
  *       400:
  *         description: Bad request. Invalid.
  */
 
-router.get("/getTeam/:id", verifyToken, teams.teamDetail);
+router.get("/getTeam/:id",  verifyToken, teams.teamDetail);
 
 /**
  * @openapi
@@ -166,20 +160,45 @@ router.post("/createMatch", verifyToken, match.createMatch);
 
 /**
  * @openapi
- * /matchUpdate/:id:
+ * /matchUpdate/{id}:
  *   post:
  *     tags:
  *     - Match
  *     description: Update the Match.
-
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the match.
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               batterId:
+ *                 type: string
+ *               bowlerId:
+ *                 type: string
+ *               ball:
+ *                 type: number
+ *               Runs:
+ *                 type: number
+ *               four:
+ *                 type: number
+ *               Six:
+ *                 type: number
  *     responses:
  *       201:
- *         description: SignUp successful
+ *         description: Match updated successfully
  *       400:
  *         description: Bad request. Invalid.
  */
 
-router.post("/matchUpdate/:id", match.matchUpdate);
+router.post("/matchUpdate/:id", verifyToken , match.matchUpdate);
 
 router.post("/wicket/:id", match.wicketUpdate);
 

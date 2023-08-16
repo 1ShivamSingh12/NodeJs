@@ -27,8 +27,8 @@ export class teams {
     try {
 
       let requestBody: any = ctx.params.id;
-      console.log(ctx.request.body);
-
+      console.log(requestBody);
+      
       let teamId = new mongoose.Types.ObjectId(requestBody);
 
       let result = await teamData.aggregate([

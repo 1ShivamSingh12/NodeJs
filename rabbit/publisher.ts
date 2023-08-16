@@ -11,23 +11,33 @@ export class publisher {
 
       const queueName = "Score_Summary";
 
-      let Summary = {
-
+      let runSummary = {
         title: `${data.Bowler} to ${data.Batsman} ${data.Runs} Run`,
-        match_id: data.match_id
+        match_id: data.match_id,
+      };
 
-      } 
+      let wicketUpdateSummary = {
+        title: `${data.Bowler} to ${data.Batsman} Wicket`,
+        match_id: data.match_id,
+      };
 
       await channel.assertQueue(queueName, { durable: false });
-      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(Summary)));
 
-      console.log(` Summary sent : ${JSON.stringify(Summary)}`);
+      if (data.wicket != 0) {
+        channel.sendToQueue(
+          queueName,
+          Buffer.from(JSON.stringify(wicketUpdateSummary))
+        );
+        console.log(` Summary sent : ${JSON.stringify(wicketUpdateSummary)}`);
+      } else {
+        channel.sendToQueue(queueName, Buffer.from(JSON.stringify(runSummary)));
+        console.log(` Summary sent : ${JSON.stringify(runSummary)}`);
+      }
 
       setTimeout(() => {
         connection.close();
         process.exit(0);
       }, 500);
-
     } catch (error) {
       console.error("Error occurred:", error);
     }

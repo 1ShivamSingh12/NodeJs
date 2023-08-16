@@ -81,10 +81,19 @@ export class matchUpdates {
             },
           }
         );
+
+        if (data.wicket != 0) {
+
+          await performanceData.updateOne(
+            { player_id: data.bowlerId },
+            {
+              $push: { wickets: { player_id: data.batterId } },
+            }
+          );
+        }
       } catch (error) {
         return error;
       }
-
       return "Success";
     } catch (error) {
       return error;

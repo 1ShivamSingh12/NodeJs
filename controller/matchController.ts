@@ -45,16 +45,17 @@ export class match {
             "teamA.Runs": requestBody.Runs || 0,
             "teamA.balls_played": requestBody?.ball || 0,
             "teamA.wickets": requestBody.wicket || 0,
+            "teamB.balls": requestBody.ball || 0,
           },
         });
       }
     }
 
-    let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
-      $inc: {
-        "teamB.balls": requestBody.ball || 0,
-      },
-    });
+    // let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
+    //   $inc: {
+    //     "teamB.balls": requestBody.ball || 0,
+    //   },
+    // });
 
     let data = await matchUpdates.performance(requestBody);
 
@@ -71,7 +72,8 @@ export class match {
       let payload = {
         Batsman: batterName.Name,
         Bowler: bowlerName.Name,
-        Runs: requestBody.Runs,
+        Runs: requestBody.Runs || 0,
+        wicket:requestBody.wicket || 0,
         match_id: ctx.params.id
       };
 

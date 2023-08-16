@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const Wickets = new mongoose.Schema({
     player_id : {
-      type:Number
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "player",
     },
   });
   
