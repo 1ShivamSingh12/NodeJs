@@ -8,7 +8,9 @@ import Router from "koa-router";
 import { subscribe } from "./rabbit/subscriber";
 import { swaggerDocs } from "./connection/swagger";
 import { SwaggerOptions, koaSwagger } from "koa2-swagger-ui";
-// import { App } from "./bootstarp/bootstrap";
+import { App } from "./bootstarp/bootstrap";
+import userRoute from "./routes/userRoutes";
+import matchRoute from "./routes/matchRoutes";
 
 
 // import { swaggerDoc } from "./connection/swagger";
@@ -19,7 +21,7 @@ import { SwaggerOptions, koaSwagger } from "koa2-swagger-ui";
 //   try {
 //     new App();
 //   } catch (error) {
-//     console.log(erroverifyTokenr);
+//     console.log('erroverifyTokenr');
 //   }
 // })();
 
@@ -32,7 +34,8 @@ const port = process.env.PORT;
 
 app.use(bodyParser())
 
-app.use(router.routes());
+app.use(userRoute.routes());
+app.use(matchRoute.routes())
 app.use(router.allowedMethods());
 
 app.use(koaBody({ multipart: true }));

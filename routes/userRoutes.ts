@@ -6,7 +6,6 @@ import { verifyToken } from "../middleware/token";
 import { players } from "../controller/playerController";
 import { Multer } from "../service/multer";
 import { loginSchema, registerValidator } from "../validation/userValidation";
-import Joi from "joi";
 import { match } from "../controller/matchController";
 
 const validate = require("koa-joi-validate");
@@ -16,7 +15,7 @@ dotenv.config();
 
 const key: string = <string>process.env.SECRETKEY;
 
-const router = new Router();
+const userRoute = new Router();
 
 /**
  * @openapi
@@ -48,7 +47,7 @@ const router = new Router();
  *         description: Bad request. Invalid.
  */
 
-router.post("/signUp", registerValidator, onboarding.signUp);
+userRoute.post("/signUp", registerValidator, onboarding.signUp);
 
 /**
  * @openapi
@@ -76,7 +75,7 @@ router.post("/signUp", registerValidator, onboarding.signUp);
  *         description: Bad request. Invalid.
  */
 
-router.post("/login", loginSchema, onboarding.login);
+userRoute.post("/login", loginSchema, onboarding.login);
 
 /**
  * @openapi
@@ -110,7 +109,7 @@ router.post("/login", loginSchema, onboarding.login);
  *         description: Bad request. Invalid.
  */
 
-router.post("/createTeam", verifyToken, teams.teamInsertion);
+userRoute.post("/createTeam", verifyToken, teams.teamInsertion);
 
 /**
  * @openapi
@@ -133,73 +132,7 @@ router.post("/createTeam", verifyToken, teams.teamInsertion);
  *         description: Bad request. Invalid.
  */
 
-router.get("/getTeam/:id",  verifyToken, teams.teamDetail);
+userRoute.get("/getTeam/:id",  verifyToken, teams.teamDetail);
 
-/**
- * @openapi
- * /createMatch:
- *   post:
- *     tags:
- *     - Match
- *     description: Create Team.
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         schema:
- *           type: string
- *         required: true
- *         description: Bearer token for authentication
- *     responses:
- *       201:
- *         description: SignUp successful
- *       400:
- *         description: Bad request. Invalid.
- */
 
-router.post("/createMatch", verifyToken, match.createMatch);
-
-/**
- * @openapi
- * /matchUpdate/{id}:
- *   post:
- *     tags:
- *     - Match
- *     description: Update the Match.
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The ID of the match.
- *     requestBody:
- *       required: false
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               batterId:
- *                 type: string
- *               bowlerId:
- *                 type: string
- *               ball:
- *                 type: number
- *               Runs:
- *                 type: number
- *               four:
- *                 type: number
- *               Six:
- *                 type: number
- *     responses:
- *       201:
- *         description: Match updated successfully
- *       400:
- *         description: Bad request. Invalid.
- */
-
-router.post("/matchUpdate/:id", verifyToken , match.matchUpdate);
-
-router.post("/wicket/:id", match.wicketUpdate);
-
-export default router;
+export default userRoute;

@@ -5,7 +5,9 @@ import koaBody from "koa-body";
 import router from "../routes/userRoutes";
 import { connectDB } from "../connection/db";
 import { subscribe } from "../rabbit/subscriber";
-import { Routes } from "../routes/routes";
+// import { routes } from "../routes/routes";
+import { SwaggerOptions, koaSwagger } from "koa2-swagger-ui";
+import { swaggerDocs } from "../connection/swagger";
 
 export class App {
   private app: Koa;
@@ -13,12 +15,10 @@ export class App {
 
   constructor() {
     this.startApplication();
-    console.log('construictor');
-    
+    console.log("construictor");
   }
 
   private startApplication() {
-    
     this.app = new Koa();
     this.globalMiddlewares();
     this.loadRoutes();
@@ -26,15 +26,22 @@ export class App {
   }
 
   private globalMiddlewares() {
-    
     dotenv.config();
     this.app.use(bodyParser());
+
+    this.app.use(
+      koaSwagger({
+        routePrefix: "/swagger",
+        swaggerOptions: {
+          spec: swaggerDocs as SwaggerOptions["spec"],
+        },
+      })
+    );
   }
 
   private loadRoutes() {
-    
-    // this.app.use(Routes.loadAllRoutes());
-    this.app.use(router.routes())
+    // this.app.use(routes.loadAllRoutes);
+    this.app.use(router.routes());
     this.app.use(router.allowedMethods());
     this.app.use(koaBody({ multipart: true }));
   }

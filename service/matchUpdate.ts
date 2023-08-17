@@ -1,4 +1,3 @@
-import { Context } from "koa-swagger-decorator";
 import { playerData } from "../models/playerModel";
 import { matchData } from "../models/matchModel";
 import { performanceData } from "../models/performance";
