@@ -1,19 +1,9 @@
 import Router from "koa-router";
 import { onboarding } from "../controller/userController";
-import * as dotenv from "dotenv";
 import { teams } from "../controller/team";
 import { verifyToken } from "../middleware/token";
-import { players } from "../controller/playerController";
-import { Multer } from "../service/multer";
+import { Multer } from "../service/multer.service";
 import { loginSchema, registerValidator } from "../validation/userValidation";
-import { match } from "../controller/matchController";
-
-const validate = require("koa-joi-validate");
-// import validate from "koa-joi-validate";
-
-dotenv.config();
-
-const key: string = <string>process.env.SECRETKEY;
 
 const userRoute = new Router();
 
@@ -77,62 +67,7 @@ userRoute.post("/signUp", registerValidator, onboarding.signUp);
 
 userRoute.post("/login", loginSchema, onboarding.login);
 
-/**
- * @openapi
- * /createTeam:
- *   post:
- *     tags:
- *     - Team
- *     description: Create Team.
- *     parameters:
- *       - in: header
- *         name: authorization
- *         schema:
- *           type: string
- *         required: true
- *         description: Token for authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               country:
- *                 type: string
- *     responses:
- *       201:
- *         description: SignUp successful
- *       400:
- *         description: Bad request. Invalid.
- */
 
-userRoute.post("/createTeam", verifyToken, teams.teamInsertion);
-
-/**
- * @openapi
- * /getTeam/{id}:
- *   get:
- *     tags:
- *     - Team
- *     description: Get Team.
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The ID of the team.
- *     responses:
- *       201:
- *         description: successful
- *       400:
- *         description: Bad request. Invalid.
- */
-
-userRoute.get("/getTeam/:id",  verifyToken, teams.teamDetail);
 
 
 export default userRoute;

@@ -1,9 +1,7 @@
 import { Context } from "koa";
 import { userData } from "../models/userModel";
 import bcrypt from "bcrypt";
-import { loginSchema } from "../validation/userValidation";
-import mongoose from "mongoose";
-import { generateToken } from "../service/tokenGeneration";
+import { generateToken } from "../service/token.service";
 
 export class onboarding {
   static signUp = async (ctx: Context) => {

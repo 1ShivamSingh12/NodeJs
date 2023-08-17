@@ -61,6 +61,8 @@ matchRoute.post("/createMatch", verifyToken, match.createMatch);
  *                 type: number
  *               Six:
  *                 type: number
+ *               wicket:
+ *                 type: number
  *     responses:
  *       201:
  *         description: Match updated successfully
@@ -68,7 +70,7 @@ matchRoute.post("/createMatch", verifyToken, match.createMatch);
  *         description: Bad request. Invalid.
  */
 
-matchRoute.post("/matchUpdate/:id",  matchUpdateSchema , verifyToken , match.matchUpdate);
+matchRoute.patch("/matchUpdate/:id",  matchUpdateSchema , verifyToken , match.matchUpdate);
 
 
 export default matchRoute

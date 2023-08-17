@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { matchData } from "../models/matchModel";
 import { playerData } from "../models/playerModel";
 import { publisher } from "../rabbit/publisher";
-import { matchUpdates } from "../service/matchUpdate";
+import { matchUpdates } from "../service/match.service";
 
 export class match {
   static createMatch = async (ctx: Context) => {
@@ -50,12 +50,6 @@ export class match {
         });
       }
     }
-
-    // let updated = await matchData.findByIdAndUpdate(ctx.params.id, {
-    //   $inc: {
-    //     "teamB.balls": requestBody.ball || 0,
-    //   },
-    // });
 
     let data = await matchUpdates.performance(requestBody);
 
