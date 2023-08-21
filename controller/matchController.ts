@@ -62,19 +62,20 @@ export class match {
           });
         }
       } else {
-
       }
       let data = await matchUpdates.performance(requestBody);
 
       if (data == "Success") {
         console.log("success");
 
-        let batterName = await playerData.findById(requestBody.batterId, {
-          Name: 1,
-        });
-        let bowlerName = await playerData.findById(requestBody.bowlerId, {
-          Name: 1,
-        });
+        const [batterName, bowlerName] = await Promise.all([
+          playerData.findById(requestBody.batterId, {
+            Name: 1,
+          }),
+          playerData.findById(requestBody.bowlerId, {
+            Name: 1,
+          }),
+        ]);
 
         let payload = {
           Batsman: batterName.Name,

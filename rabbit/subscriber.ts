@@ -1,7 +1,6 @@
 import amqp from "amqplib";
 import { match_Summary } from "../models/matchSummary";
 import mongoose from "mongoose";
-import { match } from "../controller/matchController";
 import { matchData } from "../models/matchModel";
 
 export const subscribe = async () => {
@@ -52,8 +51,6 @@ export const subscribe = async () => {
               },
             },
           ]);
-
-          console.log(findballs[0].currentlyBatting.balls_played, "kfkwefkkfw");
 
           if (summaryData.length > 0) {
             await match_Summary.insertMany([
