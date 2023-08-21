@@ -8,13 +8,6 @@ export class matchUpdates {
     console.log(data);
 
     try {
-      let teamBatting = await matchData.findById(data.params, {
-        currentBatting: 1,
-        _id: 0,
-      });
-
-      console.log(teamBatting);
-
       let player_team = await playerData.findById(data.batterId, {
         team_id: 1,
         _id: 0,
@@ -30,32 +23,32 @@ export class matchUpdates {
       if (findPlayer1.length == 0 && findPlayer2.length == 0) {
         await performanceData.insertMany([
           {
-            match_id: new mongoose.Types.ObjectId(data.params),
+            match_id: new mongoose.Types.ObjectId(data.match_id),
             player_id: new mongoose.Types.ObjectId(data.batterId),
           },
           {
-            match_id: new mongoose.Types.ObjectId(data.params),
+            match_id: new mongoose.Types.ObjectId(data.match_id),
             player_id: new mongoose.Types.ObjectId(data.bowlerId),
           },
         ]);
       } else if (findPlayer1.length == 0) {
         await performanceData.insertMany([
           {
-            match_id: new mongoose.Types.ObjectId(data.params),
+            match_id: new mongoose.Types.ObjectId(data.match_id),
             player_id: new mongoose.Types.ObjectId(data.batterId),
           },
         ]);
       } else if (findPlayer2.length == 0) {
         await performanceData.insertMany([
           {
-            match_id: new mongoose.Types.ObjectId(data.params),
+            match_id: new mongoose.Types.ObjectId(data.match_id),
             player_id: new mongoose.Types.ObjectId(data.bowlerId),
           },
         ]);
       }
 
       try {
-        if (player_team.team_id.equals(teamBatting.currentBatting)) {
+        if (player_team.team_id.equals(data.battingTeam)) {
           console.log("batter");
 
           await performanceData.updateOne(
@@ -82,7 +75,6 @@ export class matchUpdates {
         );
 
         if (data.wicket != 0) {
-
           await performanceData.updateOne(
             { player_id: data.bowlerId },
             {

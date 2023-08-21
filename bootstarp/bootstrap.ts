@@ -13,7 +13,6 @@ export class App {
 
   constructor() {
     this.startApplication();
-    console.log("construictor");
   }
 
   private startApplication() {

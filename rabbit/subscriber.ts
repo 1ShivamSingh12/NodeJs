@@ -29,21 +29,53 @@ export const subscribe = async () => {
 
           console.log(summaryData.length);
 
-          let balls = await matchData.findById({ _id: data.match_id });
+          let findballs = await matchData.aggregate([
+            {
+              $match: {
+                currentBatting: new mongoose.Types.ObjectId(data.battingTeam),
+              },
+            },
+            {
+              $project: {
+                currentlyBatting: {
+                  $cond: {
+                    if: {
+                      $eq: [
+                        "$teamA.team_id",
+                        new mongoose.Types.ObjectId(data.battingTeam),
+                      ],
+                    },
+                    then: "$teamA",
+                    else: "$teamB",
+                  },
+                },
+              },
+            },
+          ]);
 
-          console.log(balls.teamB.balls, "kfkwefkkfw");
+          console.log(findballs[0].currentlyBatting.balls_played, "kfkwefkkfw");
 
-          if (summaryData.length > 0 ) {
+          if (summaryData.length > 0) {
             await match_Summary.insertMany([
               {
                 match_id: new mongoose.Types.ObjectId(data.match_id),
                 Commentary: {
-                  Ball: balls.teamB.balls,
+                  Ball: findballs[0].currentlyBatting.balls_played,
                   description: data.title,
                 },
               },
             ]);
-          } 
+          } else {
+            await match_Summary.insertMany([
+              {
+                match_id: new mongoose.Types.ObjectId(data.match_id),
+                Commentary: {
+                  Ball: findballs[0].currentlyBatting.balls_played,
+                  description: data.title,
+                },
+              },
+            ]);
+          }
         }
       },
       { noAck: true }

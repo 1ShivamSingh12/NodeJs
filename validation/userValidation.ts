@@ -26,5 +26,6 @@ export const registerValidator = validate({
       .required(),
     email: Joi.string().email().required(),
     password: Joi.string().token().min(5).max(30).required(),
+    role: Joi.string().required(),
   },
 });

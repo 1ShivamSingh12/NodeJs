@@ -2,7 +2,6 @@
 import { App } from "./bootstarp/bootstrap";
 
 
-
 (async () => {
   try {
     new App();

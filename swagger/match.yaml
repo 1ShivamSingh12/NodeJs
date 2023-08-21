@@ -1,0 +1,66 @@
+tags:
+  - name: Match
+    description: Operations related to matches
+paths:
+  /createMatch:
+    post:
+      tags:
+        - Match
+      summary: Create Match
+      description: Create a new match.
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: SignUp successful
+        "400":
+          description: Bad request. Invalid.
+  
+
+  /matchUpdate/{id}:
+    patch:
+      tags:
+        - Match
+      summary: Update the Match
+      description: Update details of a match.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the match.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                batterId:
+                  type: string
+                  required: true
+                bowlerId:
+                  type: string
+                  required: true
+                ball:
+                  type: number
+                  required: true
+                Runs:
+                  type: number
+                four:
+                  type: number
+                Six:
+                  type: number
+                wicket:
+                  type: number
+      responses:
+        '201':
+          description: Match updated successfully
+        '400':
+          description: Bad request. Invalid.
+
+
+  

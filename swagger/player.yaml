@@ -1,0 +1,97 @@
+tags:
+  - name: Player
+    description: Operations related to players
+paths:
+  /createPlayer:
+    post:
+      tags:
+        - Player
+      summary: Create Player
+      description: Create a new player.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                Age:
+                  type: number
+      responses:
+        "201":
+          description: SignUp successful
+        "400":
+          description: Bad request. Invalid.
+
+  /getPlayer/{id}:
+    get:
+      tags:
+        - Player
+      summary: Get Player
+      description: Get details of a player.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the player.
+      responses:
+        "201":
+          description: Successful
+        "400":
+          description: Bad request. Invalid.
+
+  /playerUpdate/{id}:
+    post:
+      tags:
+        - Player
+      summary: Player Update
+      description: Update details of a player.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the player.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                Age:
+                  type: number
+                Country:
+                  type: string
+                Role:
+                  type: string
+                Matches:
+                  type: number
+                Runs:
+                  type: number
+                Centuries:
+                  type: number
+                Half_Century:
+                  type: number
+                Overs_Bowled:
+                  type: number
+                Total_Wickets:
+                  type: number
+      responses:
+        "201":
+          description: Successful
+        "400":
+          description: Bad request. Invalid.

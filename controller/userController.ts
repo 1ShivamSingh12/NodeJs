@@ -1,7 +1,7 @@
 import { Context } from "koa";
 import { userData } from "../models/userModel";
 import bcrypt from "bcrypt";
-import { generateToken } from "../service/token.service";
+import { generateToken } from "../service/tokenGeneration";
 
 export class onboarding {
   static signUp = async (ctx: Context) => {
@@ -23,6 +23,7 @@ export class onboarding {
           console.log("Error in insertion");
         }
       } else {
+
         throw new Error("Email already exists");
       }
     } catch (error) {
@@ -32,7 +33,6 @@ export class onboarding {
 
   static login = async (ctx: Context) => {
     try {
-      console.log("ll");
 
       let requestBody = ctx.request.body;
 

@@ -14,11 +14,13 @@ export class publisher {
       let runSummary = {
         title: `${data.Bowler} to ${data.Batsman} ${data.Runs} Run`,
         match_id: data.match_id,
+        battingTeam: data.battingTeam,
       };
 
       let wicketUpdateSummary = {
         title: `${data.Bowler} to ${data.Batsman} Wicket`,
         match_id: data.match_id,
+        battingTeam: data.battingTeam,
       };
 
       await channel.assertQueue(queueName, { durable: false });

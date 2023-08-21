@@ -1,0 +1,81 @@
+tags:
+  - name: Team
+    description: Operations related to teams
+paths:
+  /createTeam:
+    post:
+      tags:
+        - Team
+      summary: Create Team
+      description: Create a new team.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                country:
+                  type: string
+      responses:
+        "201":
+          description: SignUp successful
+        "400":
+          description: Bad request. Invalid.
+
+  /getTeam/{id}:
+    get:
+      tags:
+        - Team
+      summary: Get Team
+      description: Get details of a team.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the team.
+      responses:
+        "201":
+          description: Successful
+        "400":
+          description: Bad request. Invalid.
+
+  /updateTeam/{id}:
+    post:
+      tags:
+        - Team
+      summary: Update Team
+      description: Update details of a team.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the team.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                country:
+                  type: string
+      responses:
+        "201":
+          description: Successful
+        "400":
+          description: Bad request. Invalid.

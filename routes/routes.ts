@@ -2,10 +2,6 @@ import Router from "koa-router";
 
 const allRoutes  = new Router()
 
-
-
-
-
 import userRoute from "./userRoutes";
 import matchRoute from "./matchRoutes";
 import teamRoute from "./teamRoutes";

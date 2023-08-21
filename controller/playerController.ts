@@ -1,6 +1,6 @@
 import { Context } from "koa";
 import mongoose from "mongoose";
-import { fileName } from "../service/multer.service";
+import { fileName } from "../service/multer";
 import { playerData } from "../models/playerModel";
 
 export class players {
@@ -43,8 +43,10 @@ export class players {
         _id: new mongoose.Types.ObjectId(ctx.params.id),
       });
 
-      if (playerData) {
-        return (ctx.response.body = playerData);
+      console.log(playerdata);
+
+      ctx.response.body = playerdata;
+      if (playerdata) {
       }
     } catch (error) {
       return (ctx.response.body = error);
@@ -55,8 +57,8 @@ export class players {
     try {
       const requestBody: any = ctx.request.body;
 
-      let existingData = await playerData.findById(ctx.params.id)
-      
+      let existingData = await playerData.findById(ctx.params.id);
+
       let payload = {
         Name: requestBody.Name,
         Age: requestBody.Age,
@@ -65,11 +67,11 @@ export class players {
         performance: {
           Matches: requestBody.Matches || existingData.performance.Matches,
           Runs: requestBody.Runs || existingData.performance.Runs,
-          Centuries: requestBody.Centuries || existingData.performance.Centuries,
-          Half_Century: requestBody.Half_Century || existingData.performance.Half_Century,
-          Overs_Bowled: requestBody.Overs_Bowled || existingData.performance.Overs_Bowled,
-          Total_Wickets: requestBody.Total_Wickets || existingData.performance.Total_Wickets,
-          Best_Figure: requestBody.Best_Figure || existingData.performance.Best_Figure,
+          Centuries:requestBody.Centuries || existingData.performance.Centuries,
+          Half_Century:requestBody.Half_Century || existingData.performance.Half_Century,
+          Overs_Bowled:requestBody.Overs_Bowled || existingData.performance.Overs_Bowled,
+          Total_Wickets:requestBody.Total_Wickets || existingData.performance.Total_Wickets,
+          Best_Figure:requestBody.Best_Figure || existingData.performance.Best_Figure,
         },
       };
 

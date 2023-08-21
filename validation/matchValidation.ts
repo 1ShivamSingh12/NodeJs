@@ -1,6 +1,5 @@
 import Joi from "joi";
 
-
 const validate = require("koa-joi-validate");
 
 export const matchUpdateSchema = validate({
