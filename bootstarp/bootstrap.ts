@@ -4,7 +4,7 @@ import bodyParser from "koa-bodyparser";
 import { connectDB } from "../connection/db";
 import { subscribe } from "../rabbit/subscriber";
 import { SwaggerOptions, koaSwagger } from "koa2-swagger-ui";
-import { swaggerDocs } from "../connection/swagger";
+import { swaggerDocs } from "../swagger/swagger";
 import allRoutes from "../routes/routes";
 
 export class App {

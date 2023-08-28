@@ -12,7 +12,7 @@ export class publisher {
       const queueName = "Score_Summary";
 
       let runSummary = {
-        title: `${data.Bowler} to ${data.Batsman} ${data.Runs} Run`,
+        title: `${data.Bowler} to ${data.Batsman} ${data.Runs} Run `,
         match_id: data.match_id,
         battingTeam: data.battingTeam,
       };

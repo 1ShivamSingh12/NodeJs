@@ -1,7 +1,8 @@
 import { Context } from "koa";
 import mongoose from "mongoose";
-import { fileName } from "../service/multer";
+import { fileName } from "../service/multer.service";
 import { playerData } from "../models/playerModel";
+import { PlayerEntity } from "../entity/playerEntity";
 
 export class players {
   static playerInsertion = async (ctx: Context) => {
@@ -22,11 +23,14 @@ export class players {
         //   profilePic:imageBuffer
       };
 
-      let data = await playerData.insertMany([
-        {
-          ...payload,
-        },
-      ]);
+      let data = await PlayerEntity.insertMany(
+        [
+          {
+            ...payload,
+          },
+        ],
+        {}
+      );
 
       if (data) {
         ctx.status = 200;
@@ -39,17 +43,28 @@ export class players {
 
   static getPlayers = async (ctx: Context) => {
     try {
-      let playerdata = await playerData.findById({
-        _id: new mongoose.Types.ObjectId(ctx.params.id),
-      });
+      let playerdata = await PlayerEntity.findById(
+        { _id: new mongoose.Types.ObjectId(ctx.params.id) },
+        {},
+        {}
+      );
 
       console.log(playerdata);
 
-      ctx.response.body = playerdata;
-      if (playerdata) {
+      console.log("111111111111111111111111", ctx);
+      if (!playerdata) {
+        ctx.response.status = 404;
+        console.log("2222222222222222222222222");
+
+        ctx.body = { message: "Player Not found" };
+      } else {
+        ctx.response.status = 200;
+        ctx.body = { message: playerdata };
       }
+      console.log(ctx.response);
     } catch (error) {
-      return (ctx.response.body = error);
+      ctx.response.status = 500;
+      ctx.body = { message: "Internal Error" };
     }
   };
 
@@ -57,29 +72,38 @@ export class players {
     try {
       const requestBody: any = ctx.request.body;
 
-      let existingData = await playerData.findById(ctx.params.id);
+      let existingData = await PlayerEntity.findById(
+        { _id: new mongoose.Types.ObjectId(ctx.params.id) },
+        {},
+        {}
+      );
 
       let payload = {
         Name: requestBody.Name,
         Age: requestBody.Age,
         Country: requestBody.Country,
         Role: requestBody.Role,
-        performance: {
-          Matches: requestBody.Matches || existingData.performance.Matches,
-          Runs: requestBody.Runs || existingData.performance.Runs,
-          Centuries:requestBody.Centuries || existingData.performance.Centuries,
-          Half_Century:requestBody.Half_Century || existingData.performance.Half_Century,
-          Overs_Bowled:requestBody.Overs_Bowled || existingData.performance.Overs_Bowled,
-          Total_Wickets:requestBody.Total_Wickets || existingData.performance.Total_Wickets,
-          Best_Figure:requestBody.Best_Figure || existingData.performance.Best_Figure,
-        },
       };
 
-      let playerUpdate = await playerData.findByIdAndUpdate(ctx.params.id, {
-        $set: {
-          ...payload,
+      let playerUpdate = await PlayerEntity.findByIdAndUpdate(
+        ctx.params.id,
+        {
+          $set: {
+            ...payload,
+            "performance.Best_Figure":
+              requestBody.Best_Figure || existingData.performance.Best_Figure,
+          },
+          $inc: {
+            "performance.Matches": requestBody.Matches || 0,
+            "performance.Runs": requestBody.Runs || 0,
+            "performance.Centuries": requestBody.Centuries || 0,
+            "performance.Half_Century": requestBody.Half_Century || 0,
+            "performance.Overs_Bowled": requestBody.Overs_Bowled || 0,
+            "performance.Total_Wickets": requestBody.Total_Wickets || 0,
+          },
         },
-      });
+        {}
+      );
 
       if (playerUpdate) {
         ctx.response.body = playerUpdate;

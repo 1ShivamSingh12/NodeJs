@@ -12,11 +12,13 @@ export const verifyToken = (ctx: Context, next: any) => {
       const token = tokenToVerify.substring(7);
 
       const decoded = jsonwebtoken.verify(token, key);
-
-      ctx.state.user = decoded;
-      ctx.status = 200;
-      // ctx.body = { message: "Verified" };
-      next();
+      if (decoded) {
+        ctx.state.user = decoded;
+        ctx.status = 200
+        next();
+      } else {
+        console.error(`Invalid Token`);
+      }
     } else {
       ctx.status = 401;
       ctx.body = { message: "No token provided" };

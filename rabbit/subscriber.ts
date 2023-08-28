@@ -2,6 +2,7 @@ import amqp from "amqplib";
 import { match_Summary } from "../models/matchSummary";
 import mongoose from "mongoose";
 import { matchData } from "../models/matchModel";
+import { MatchSummaryEntity } from "../entity/matchSummaryEntity";
 
 export const subscribe = async () => {
   try {
@@ -22,12 +23,7 @@ export const subscribe = async () => {
 
           let message = msg.content.toString();
           let data = JSON.parse(message);
-          let summaryData = await match_Summary.find({
-            match_id: new mongoose.Types.ObjectId(data.match_id),
-          });
-
-          console.log(summaryData.length);
-
+          
           let findballs = await matchData.aggregate([
             {
               $match: {
@@ -52,26 +48,23 @@ export const subscribe = async () => {
             },
           ]);
 
-          if (summaryData.length > 0) {
-            await match_Summary.insertMany([
-              {
-                match_id: new mongoose.Types.ObjectId(data.match_id),
-                Commentary: {
-                  Ball: findballs[0].currentlyBatting.balls_played,
-                  description: data.title,
-                },
-              },
-            ]);
-          } else {
-            await match_Summary.insertMany([
-              {
-                match_id: new mongoose.Types.ObjectId(data.match_id),
-                Commentary: {
-                  Ball: findballs[0].currentlyBatting.balls_played,
-                  description: data.title,
-                },
-              },
-            ]);
+          try {
+            if (data) {
+              await MatchSummaryEntity.insertMany(
+                [
+                  {
+                    match_id: new mongoose.Types.ObjectId(data.match_id),
+                    Commentary: {
+                      Ball: findballs[0].currentlyBatting.balls_played,
+                      description: data.title,
+                    },
+                  },
+                ],
+                {}
+              );
+            }
+          } catch (error) {
+            console.log(error);
           }
         }
       },

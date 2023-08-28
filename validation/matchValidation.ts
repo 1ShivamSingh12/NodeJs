@@ -10,6 +10,8 @@ export const matchUpdateSchema = validate({
     Runs:Joi.number().optional(),
     four:Joi.number().optional(),
     Six:Joi.number().optional(),
-    wicket: Joi.number().optional()
+    wicket: Joi.number().optional(),
+    noBall:Joi.number().optional(),
+    wide:Joi.number().optional()
   },
 });

@@ -1,6 +1,7 @@
 import { Context } from "koa";
 import { teamData } from "../models/team";
 import mongoose from "mongoose";
+import { TeamEntity } from "../entity/teamEntity";
 
 export class teams {
   static teamInsertion = async (ctx: Context) => {
@@ -8,11 +9,11 @@ export class teams {
 
     try {
       if (requestBody) {
-        let teamInsert = await teamData.insertMany([
+        let teamInsert = await TeamEntity.insertMany([
           {
             ...requestBody,
           },
-        ]);
+        ],{});
         ctx.status = 200;
         ctx.body = { message: "Inserted" };
       } else {
@@ -70,11 +71,11 @@ export class teams {
     try {
       let requestBody:any = ctx.request.body;
 
-      let updatedTeam = await teamData.findByIdAndUpdate(ctx.params.id, {
+      let updatedTeam = await TeamEntity.findByIdAndUpdate(ctx.params.id, {
         $set: {
           ...requestBody,
         },
-      });
+      },{});
 
       if (updatedTeam) {
         ctx.response.body = updatedTeam;
