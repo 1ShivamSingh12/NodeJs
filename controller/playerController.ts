@@ -49,13 +49,8 @@ export class players {
         {}
       );
 
-      console.log(playerdata);
-
-      console.log("111111111111111111111111", ctx);
       if (!playerdata) {
         ctx.response.status = 404;
-        console.log("2222222222222222222222222");
-
         ctx.body = { message: "Player Not found" };
       } else {
         ctx.response.status = 200;

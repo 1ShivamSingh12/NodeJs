@@ -3,7 +3,7 @@ import jsonwebtoken from "jsonwebtoken";
 
 const key: string = <string>process.env.SECRETKEY;
 
-export const verifyToken = (ctx: Context, next: any) => {
+export const verifyToken = async(ctx: Context, next: any) => {
   const tokenToVerify: string = <string>ctx.header.authorization;
   console.log(tokenToVerify);
 
@@ -13,9 +13,8 @@ export const verifyToken = (ctx: Context, next: any) => {
 
       const decoded = jsonwebtoken.verify(token, key);
       if (decoded) {
-        ctx.state.user = decoded;
-        ctx.status = 200
-        next();
+        await next();
+        
       } else {
         console.error(`Invalid Token`);
       }
