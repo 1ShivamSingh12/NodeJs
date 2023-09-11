@@ -1,38 +1,20 @@
 import { Context } from "koa";
-import { ObjectId } from "mongodb";
 import { publisher } from "../rabbit/publisher";
-import { matchUpdates } from "../service/match.service";
+import { matchService } from "../service/match.service";
 import { MatchEntity } from "../entity/matchEntity";
 import { PlayerEntity } from "../entity/playerEntity";
 
 export class match {
+
+
   static createMatch = async (ctx: Context) => {
     try {
-      let createMatch = await MatchEntity.insertMany(
-        [
-          {
-            teamA: {
-              team_id: new ObjectId("64cc910cde9efedc577a2e97"),
-              Extras: {},
-            },
-            teamB: {
-              team_id: new ObjectId("64cc9230de9efedc577a2e99"),
-              Extras: {},
-            },
-            date: new Date(),
-            venue: "Mumbai",
-            currentBatting: new ObjectId("64cc9230de9efedc577a2e99"),
-            performance: [],
-          },
-        ],
-        {}
-      );
 
-      if (createMatch) {
-        ctx.status = 200;
+      const response = await matchService.createMatch()
 
-        ctx.response.body = "dskfhwefuihweuifweufuiwef";
-      }
+      ctx.status = 200;
+      ctx.response.body = response;
+
     } catch (error) {
       throw (ctx.response = error);
     }
@@ -139,7 +121,7 @@ export class match {
           );
         }
       }
-      let data = await matchUpdates.performance(requestBody);
+      let data = await matchService.performance(requestBody);
 
       if (data == "Success") {
         console.log("success");
@@ -172,10 +154,9 @@ export class match {
 
         let publishedData = publisher.matchSummary(payload);
       }
-    } catch (error) {}
-  };
+    } catch (error) {
 
-  static wicketUpdate = async (ctx: Context) => {
-    console.log(ctx.request.body);
+
+    }
   };
 }

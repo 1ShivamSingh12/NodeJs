@@ -1,7 +1,7 @@
 import Koa from "koa";
 import * as dotenv from "dotenv";
 import bodyParser from "koa-bodyparser";
-import { connectDB } from "../connection/db";
+import { client, connectDB } from "../connection/db";
 import { subscribe } from "../rabbit/subscriber";
 import { SwaggerOptions, koaSwagger } from "koa2-swagger-ui";
 import { swaggerDocs } from "../swagger/swagger";
@@ -43,6 +43,8 @@ export class App {
     this.app.listen(this.port, async () => {
       console.log(`Listening to port ${this.port}`);
       await connectDB();
+      await client.connect()
+
       subscribe();
     });
   }

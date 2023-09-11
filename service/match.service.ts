@@ -2,8 +2,11 @@ import { performanceData } from "../models/performance";
 import mongoose from "mongoose";
 import { PlayerEntity } from "../entity/playerEntity";
 import { PerformanceEntity } from "../entity/performaceEntity";
+import { MatchEntity } from "../entity/matchEntity";
+import { ObjectId } from "mongodb";
 
-export class matchUpdates {
+export class matchService {
+
   static performance = async (data: any) => {
     console.log(data);
 
@@ -148,4 +151,31 @@ export class matchUpdates {
       return error;
     }
   };
+
+
+  static createMatch = async() =>{
+
+    let createMatch = await MatchEntity.insertMany(
+      [
+        {
+          teamA: {
+            team_id: new ObjectId("64cc910cde9efedc577a2e97"),
+            Extras: {},
+          },
+          teamB: {
+            team_id: new ObjectId("64cc9230de9efedc577a2e99"),
+            Extras: {},
+          },
+          date: new Date(),
+          venue: "Mumbai",
+          currentBatting: new ObjectId("64cc9230de9efedc577a2e99"),
+          performance: [],
+        },
+      ],
+      {}
+    );
+
+    return createMatch
+
+  }
 }

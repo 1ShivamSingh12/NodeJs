@@ -1,73 +1,56 @@
 import { Context } from "koa";
-import { userData } from "../models/userModel";
-import bcrypt from "bcrypt";
-import { generateToken } from "../service/token.service";
-import { UserEntity } from "../entity/userEntity";
+import { userService } from "../service/user.service";
+import nodemailer from "nodemailer";
 
 export class onboarding {
-
-  // private userEntity: typeof UserEntity;
-
-  constructor(){
-    // this.userEntity = UserEntity;
-
-  }
-
   static signUp = async (ctx: Context) => {
     try {
-      let requestBody: any = ctx.request.body;
+      const response = await userService.registerUser(ctx);
+      ctx.status = 200;
+      ctx.response.body = "Successfuly Insertion";
+    } catch (error) {
+      ctx.status = 500;
+      ctx.response.body = "Error";
+    }
+  };
 
-      const emailMatch = await UserEntity.findOne({email:requestBody.email} , {} , {})
-      
-      if (!emailMatch) {
-        let securePass = await bcrypt.hash(requestBody.password, 10);
-        requestBody.password = securePass;
+  static login = async (ctx: Context) => {
+    try {
+      const response = await userService.loginUser(ctx);
+      console.log(response);
 
-        const user = await UserEntity.insertMany([{  ...requestBody }],{});
+      ctx.status = 200;
+      ctx.response.body = response;
+    } catch (error) {
+      ctx.status = 500;
+      ctx.response.body = "Error";
+    }
+  };
 
-        if (user) {
-          ctx.response.body = "Successfuly Insertion";
-          ctx.respoonse.status = 200;
-        } else {
-          console.log("Error in insertion");
-        }
-      } else {
-
-        throw new Error("Email already exists");
+  static generateOTP = async (ctx: Context) => {
+    try {
+      const response = await userService.generateOTP(ctx);
+      if (response) {
+        ctx.status = 200;
+        ctx.response.body = { message: "Email Send" };
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  static login = async (ctx: Context) => {
+  static verifyOTP = async (ctx: Context) => {
     try {
-
-      let requestBody = ctx.request.body;
-
-      const { email, password }: any = ctx.request.body;
-
-      if (email && password) {
-        const user = await UserEntity.findOne({email:email} , {},{})
-
-        if (user?.role == "admin") {
-          const matchPass = await bcrypt.compare(
-            password,
-            <string>user?.password
-          );
-
-          if (matchPass) {
-            generateToken(user?.id, ctx);
-          } else {
-            ctx.response.body = "Password is incorrect";
-          }
-        }
+      const response = await userService.verifyOTP(ctx);
+      if (response == "Verified") {
+        ctx.status = 200;
+        ctx.response.body = { message: "Otp Verified" };
       } else {
-        return ctx.throw(401, "Authentication Failed");
+        ctx.status = 500
+        ctx.response.body = {message:"Otp Not Verified"}
       }
-
     } catch (error) {
-      console.log(error);
+      ctx.response.body = error
     }
   };
 }

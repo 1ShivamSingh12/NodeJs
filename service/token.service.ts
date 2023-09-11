@@ -10,5 +10,5 @@ const key: string = <string>process.env.SECRETKEY;
 
 export const generateToken = (id:string , ctx:  Context) =>{
     const token = jsonwebtoken.sign(id, key);
-    ctx.response.body = token
+    return token
 }

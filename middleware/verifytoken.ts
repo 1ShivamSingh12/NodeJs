@@ -5,7 +5,6 @@ const key: string = <string>process.env.SECRETKEY;
 
 export const verifyToken = async(ctx: Context, next: any) => {
   const tokenToVerify: string = <string>ctx.header.authorization;
-  console.log(tokenToVerify);
 
   try {
     if (tokenToVerify && tokenToVerify.startsWith("Bearer ")) {
@@ -13,6 +12,7 @@ export const verifyToken = async(ctx: Context, next: any) => {
 
       const decoded = jsonwebtoken.verify(token, key);
       if (decoded) {
+        ctx.state.user = decoded
         await next();
         
       } else {

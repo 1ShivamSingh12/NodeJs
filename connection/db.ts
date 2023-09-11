@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose';
-// import * as models from './models/syncCollection';
+import { createClient } from 'redis';
  
 const DATABASE_URL = "mongodb+srv://shivamsingh5:shivam791@cluster0.cmhyb3s.mongodb.net/cricketTournament";
 
@@ -17,4 +17,10 @@ export const connectDB = async () => {
 
   }
 }
+
+
+export const client = createClient();
+client.on("error", (err:Error) => console.log("Redis Client Error", err));
+
+
 

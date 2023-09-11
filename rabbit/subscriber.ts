@@ -1,5 +1,4 @@
 import amqp from "amqplib";
-import { match_Summary } from "../models/matchSummary";
 import mongoose from "mongoose";
 import { matchData } from "../models/matchModel";
 import { MatchSummaryEntity } from "../entity/matchSummaryEntity";
